@@ -21,6 +21,9 @@ type ContactFormData = {
   email: string;
   phone: string;
   projectType: string;
+  property: string;
+  estimatedCloseDate: string;
+  city: string;
   timeline: string;
   details: string;
 };
@@ -31,6 +34,9 @@ const INITIAL_FORM: ContactFormData = {
   email: "",
   phone: "",
   projectType: "",
+  property: "",
+  estimatedCloseDate: "",
+  city: "",
   timeline: "",
   details: "",
 };
@@ -336,6 +342,63 @@ function ContactForm() {
                   {errors.projectType}
                 </p>
               )}
+            </div>
+
+            <div>
+              <label
+                htmlFor="contact-property"
+                className="mb-2 block text-sm font-medium text-[#0C1E2E]"
+              >
+                Property Being Sold
+              </label>
+              <input
+                type="text"
+                id="contact-property"
+                value={formData.property}
+                onChange={(e) =>
+                  setFormData((prev) => ({ ...prev, property: e.target.value }))
+                }
+                placeholder="Include property type, location, and estimated value (optional)"
+                className="w-full rounded-2xl border border-[#E5E7EB] bg-white px-4 py-3 text-sm text-[#0C1E2E] placeholder:text-[#1E1E1E]/50 focus:border-[#0C1E2E] focus:outline-none focus:ring-2 focus:ring-[#F5B32F]/50"
+              />
+            </div>
+
+            <div className="grid gap-4 md:grid-cols-2">
+              <div>
+                <label
+                  htmlFor="contact-estimated-close-date"
+                  className="mb-2 block text-sm font-medium text-[#0C1E2E]"
+                >
+                  Estimated Close Date
+                </label>
+                <input
+                  type="date"
+                  id="contact-estimated-close-date"
+                  value={formData.estimatedCloseDate}
+                  onChange={(e) =>
+                    setFormData((prev) => ({ ...prev, estimatedCloseDate: e.target.value }))
+                  }
+                  className="w-full rounded-2xl border border-[#E5E7EB] bg-white px-4 py-3 text-sm text-[#0C1E2E] focus:border-[#0C1E2E] focus:outline-none focus:ring-2 focus:ring-[#F5B32F]/50"
+                />
+              </div>
+              <div>
+                <label
+                  htmlFor="contact-city"
+                  className="mb-2 block text-sm font-medium text-[#0C1E2E]"
+                >
+                  City
+                </label>
+                <input
+                  type="text"
+                  id="contact-city"
+                  value={formData.city}
+                  onChange={(e) =>
+                    setFormData((prev) => ({ ...prev, city: e.target.value }))
+                  }
+                  placeholder="Primary metro or submarket (optional)"
+                  className="w-full rounded-2xl border border-[#E5E7EB] bg-white px-4 py-3 text-sm text-[#0C1E2E] placeholder:text-[#1E1E1E]/50 focus:border-[#0C1E2E] focus:outline-none focus:ring-2 focus:ring-[#F5B32F]/50"
+                />
+              </div>
             </div>
 
             <div>
