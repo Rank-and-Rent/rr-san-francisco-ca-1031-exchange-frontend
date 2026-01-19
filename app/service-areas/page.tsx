@@ -62,11 +62,6 @@ export default function LocationsPage() {
                       <h2 className="font-[family-name:var(--font-playfair)] text-[13px] md:text-[16px] font-normal tracking-[0.05em] text-white leading-tight">
                         {location.name.toUpperCase()}
                       </h2>
-                      {location.medianPrice && (
-                        <p className="mt-1 text-[11px] md:text-[12px] text-white/70">
-                          {location.medianPrice}
-                        </p>
-                      )}
                     </div>
                   </div>
                 </Link>

@@ -99,181 +99,199 @@ export default async function LocationPage({
   const imagePath = getLocationImagePath(resolvedParams.slug, location.name, PRIMARY_STATE_ABBR);
 
   return (
-    <div className="mx-auto max-w-6xl px-6 py-20 md:px-10 md:py-28">
-      <Breadcrumbs
-        items={[
-          { label: "Home", href: "/" },
-          { label: "Service Areas", href: "/service-areas" },
-          { label: location.name, href: `/service-areas/${location.slug}` },
-        ]}
-      />
-
-      <div className="mb-12">
-        <div className="relative mb-8 h-64 w-full overflow-hidden rounded-3xl md:h-96">
-          <Image
-            src={`${imagePath}.jpg`}
-            alt={`${location.name}, ${PRIMARY_STATE_ABBR} - 1031 Exchange Properties`}
-            fill
-            className="object-cover"
-            priority
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 90vw, 1200px"
-          />
-        </div>
-        <h1 className="mb-4 font-bold text-4xl leading-[1.1] tracking-tight text-[#0C1E2E] md:text-5xl">
-          1031 Exchange Properties in {location.name}, {PRIMARY_STATE_ABBR}
-        </h1>
-        {locationData?.mainDescription ? (
-          <div
-            className="text-lg leading-relaxed text-[#1E1E1E]/80"
-            dangerouslySetInnerHTML={{
-              __html: locationData.mainDescription,
-            }}
-          />
-        ) : (
-          <p className="text-lg leading-relaxed text-[#1E1E1E]/80">
-            Find 1031 exchange replacement properties in {location.name}, {PRIMARY_STATE_ABBR}. We help investors identify properties across the Bay Area and nationwide.
+    <div className="bg-[#F7F5F2]">
+      {/* Hero Section */}
+      <section className="relative h-[50vh] min-h-[350px]">
+        <Image
+          src={`${imagePath}.jpg`}
+          alt={`${location.name}, ${PRIMARY_STATE_ABBR} - 1031 Exchange Properties`}
+          fill
+          className="object-cover"
+          priority
+          sizes="100vw"
+        />
+        <div className="absolute inset-0 bg-black/50" />
+        <div className="relative z-10 flex h-full flex-col items-center justify-center text-center px-6">
+          <h1 className="font-[family-name:var(--font-playfair)] text-[28px] md:text-[38px] lg:text-[48px] font-normal tracking-[0.1em] uppercase text-white">
+            {location.name}
+          </h1>
+          <p className="mt-4 max-w-2xl text-[14px] md:text-[16px] text-white/80">
+            1031 Exchange Properties in {location.name}, {PRIMARY_STATE_ABBR}
           </p>
-        )}
-      </div>
-
-      <div className="mb-12 rounded-3xl border border-[#E5E7EB] bg-[#FAFAFA] p-8">
-        <h2 className="mb-4 font-semibold text-2xl text-[#0C1E2E]">
-          Frequently Asked Questions
-        </h2>
-        <div className="space-y-6">
-          {faqs.map((faq: { question: string; answer: string }, index: number) => (
-            <div key={index}>
-              <h3 className="mb-2 font-semibold text-lg text-[#0C1E2E]">
-                {faq.question}
-              </h3>
-              <p className="text-sm leading-relaxed text-[#1E1E1E]/80">
-                {faq.answer}
-              </p>
-            </div>
-          ))}
         </div>
+      </section>
+
+      {/* Breadcrumbs */}
+      <div className="max-w-6xl mx-auto px-6 lg:px-12 py-4">
+        <Breadcrumbs
+          items={[
+            { label: "Home", href: "/" },
+            { label: "Service Areas", href: "/service-areas" },
+            { label: location.name, href: `/service-areas/${location.slug}` },
+          ]}
+        />
       </div>
 
-      {popularPaths.length > 0 && (
+      {/* Main Content */}
+      <div className="max-w-4xl mx-auto px-6 lg:px-12 py-8">
         <div className="mb-12">
-          <h2 className="mb-6 font-semibold text-2xl text-[#0C1E2E]">
-            Popular Property Paths in {location.name}
+          {locationData?.mainDescription ? (
+            <div
+              className="text-[15px] leading-relaxed text-[#555]"
+              dangerouslySetInnerHTML={{
+                __html: locationData.mainDescription,
+              }}
+            />
+          ) : (
+            <p className="text-[15px] leading-relaxed text-[#555]">
+              Find 1031 exchange replacement properties in {location.name}, {PRIMARY_STATE_ABBR}. We help investors identify properties across the Bay Area and nationwide.
+            </p>
+          )}
+        </div>
+
+        <div className="bg-white border border-[#E5E0D8] p-8 mb-12">
+          <h2 className="font-[family-name:var(--font-playfair)] text-[24px] md:text-[28px] font-normal text-[#5A2828] mb-6">
+            Frequently Asked Questions
           </h2>
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {popularPaths.slice(0, 6).map((path: any, index: number) => {
-              if (path.type === "service") {
-                const service = servicesData.find((s) => s.slug === path.slug);
-                if (!service) return null;
+          <div className="space-y-6">
+            {faqs.map((faq: { question: string; answer: string }, index: number) => (
+              <div key={index}>
+                <h3 className="font-[family-name:var(--font-playfair)] text-[18px] md:text-[20px] font-normal text-[#2D2D2D] mb-2">
+                  {faq.question}
+                </h3>
+                <p className="text-[14px] leading-relaxed text-[#555]">
+                  {faq.answer}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {popularPaths.length > 0 && (
+          <div className="mb-12">
+            <h2 className="font-[family-name:var(--font-playfair)] text-[24px] md:text-[28px] font-normal text-[#2D2D2D] mb-6">
+              Popular Property Paths in {location.name}
+            </h2>
+            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+              {popularPaths.slice(0, 6).map((path: any, index: number) => {
+                if (path.type === "service") {
+                  const service = servicesData.find((s) => s.slug === path.slug);
+                  if (!service) return null;
+                  return (
+                    <Link
+                      key={`service-${path.slug}`}
+                      href={`/services/${service.slug}`}
+                      className="group flex flex-col gap-3 bg-white border border-[#E5E0D8] p-5 hover:border-[#5A2828]/30 transition"
+                    >
+                      <div className="flex items-center gap-2">
+                        <span className="flex h-7 w-7 items-center justify-center bg-[#5A2828]/10 text-[12px] font-medium text-[#5A2828]">
+                          {path.rank}
+                        </span>
+                        <h3 className="font-[family-name:var(--font-playfair)] text-[16px] font-normal text-[#2D2D2D] group-hover:text-[#5A2828] transition">
+                          {path.name}
+                        </h3>
+                      </div>
+                      {path.whyPopular && (
+                        <p className="text-[13px] leading-relaxed text-[#666]">
+                          {path.whyPopular}
+                        </p>
+                      )}
+                      <span className="text-[12px] font-medium text-[#5A2828] tracking-wide uppercase">
+                        Learn more →
+                      </span>
+                    </Link>
+                  );
+                }
+                // Handle property types
                 return (
-                  <Link
-                    key={`service-${path.slug}`}
-                    href={`/services/${service.slug}`}
-                    className="group flex flex-col gap-3 rounded-3xl border border-[#E5E7EB] bg-white p-6 transition hover:border-[#0C1E2E]/30 hover:shadow-lg"
+                  <div
+                    key={`property-${path.slug}-${index}`}
+                    className="flex flex-col gap-3 bg-white border border-[#E5E0D8] p-5"
                   >
                     <div className="flex items-center gap-2">
-                      <span className="flex h-8 w-8 items-center justify-center rounded-full bg-[#F5B32F]/20 text-sm font-semibold text-[#0C1E2E]">
+                      <span className="flex h-7 w-7 items-center justify-center bg-[#5A2828]/10 text-[12px] font-medium text-[#5A2828]">
                         {path.rank}
                       </span>
-                      <h3 className="font-semibold text-lg text-[#0C1E2E] group-hover:text-[#F5B32F] transition">
+                      <h3 className="font-[family-name:var(--font-playfair)] text-[16px] font-normal text-[#2D2D2D]">
                         {path.name}
                       </h3>
                     </div>
                     {path.whyPopular && (
-                      <p className="text-sm leading-relaxed text-[#1E1E1E]/80">
+                      <p className="text-[13px] leading-relaxed text-[#666]">
                         {path.whyPopular}
                       </p>
                     )}
-                    <span className="text-sm font-medium text-[#F5B32F]">
-                      Learn more →
-                    </span>
-                  </Link>
-                );
-              }
-              // Handle property types - link to property-types page if it exists
-              return (
-                <div
-                  key={`property-${path.slug}-${index}`}
-                  className="flex flex-col gap-3 rounded-3xl border border-[#E5E7EB] bg-white p-6"
-                >
-                  <div className="flex items-center gap-2">
-                    <span className="flex h-8 w-8 items-center justify-center rounded-full bg-[#F5B32F]/20 text-sm font-semibold text-[#0C1E2E]">
-                      {path.rank}
-                    </span>
-                    <h3 className="font-semibold text-lg text-[#0C1E2E]">
-                      {path.name}
-                    </h3>
                   </div>
-                  {path.whyPopular && (
-                    <p className="text-sm leading-relaxed text-[#1E1E1E]/80">
-                      {path.whyPopular}
-                    </p>
-                  )}
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      )}
-
-      {locationData?.exampleCapability && (
-        <div className="mb-12 rounded-3xl border border-[#E5E7EB] bg-[#FAFAFA] p-8">
-          <h2 className="mb-4 font-semibold text-2xl text-[#0C1E2E]">
-            Example Capability
-          </h2>
-          <p className="mb-4 text-sm italic text-[#1E1E1E]/60">
-            {locationData.exampleCapability.disclaimer}
-          </p>
-          <div className="space-y-4">
-            <div>
-              <h3 className="mb-1 font-semibold text-lg text-[#0C1E2E]">
-                Situation
-              </h3>
-              <p className="text-sm leading-relaxed text-[#1E1E1E]/80">
-                {locationData.exampleCapability.situation}
-              </p>
-            </div>
-            <div>
-              <h3 className="mb-1 font-semibold text-lg text-[#0C1E2E]">
-                Our Approach
-              </h3>
-              <p className="text-sm leading-relaxed text-[#1E1E1E]/80">
-                {locationData.exampleCapability.ourApproach}
-              </p>
-            </div>
-            <div>
-              <h3 className="mb-1 font-semibold text-lg text-[#0C1E2E]">
-                Expected Outcome
-              </h3>
-              <p className="text-sm leading-relaxed text-[#1E1E1E]/80">
-                {locationData.exampleCapability.expectedOutcome}
-              </p>
+                );
+              })}
             </div>
           </div>
-        </div>
-      )}
+        )}
 
-      <div className="mt-12 rounded-3xl border border-[#E5E7EB] bg-[#F5B32F]/10 p-8 text-center">
-        <h2 className="mb-4 font-semibold text-2xl text-[#0C1E2E]">
-          Ready to Find Replacement Properties in {location.name}?
-        </h2>
-        <p className="mb-6 text-[#1E1E1E]/80">
-          Contact us to discuss 1031 exchange properties in {location.name}, {PRIMARY_STATE_ABBR}.
-        </p>
-        <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
-          <Link
-            href="/contact"
-            className="inline-block rounded-full bg-[#0C1E2E] px-8 py-4 text-sm font-semibold uppercase tracking-[0.3em] text-white transition hover:bg-[#12304b]"
-          >
-            Contact Us
-          </Link>
-          <a
-            href={`tel:${PHONE_DIGITS}`}
-            className="inline-block rounded-full border border-[#0C1E2E] px-8 py-4 text-sm font-semibold uppercase tracking-[0.3em] text-[#0C1E2E] transition hover:bg-[#0C1E2E] hover:text-white"
-          >
-            Call Now
-          </a>
-        </div>
+        {locationData?.exampleCapability && (
+          <div className="bg-white border border-[#E5E0D8] p-8 mb-12">
+            <h2 className="font-[family-name:var(--font-playfair)] text-[24px] md:text-[28px] font-normal text-[#5A2828] mb-4">
+              Example Capability
+            </h2>
+            <p className="text-[12px] italic text-[#888] mb-6">
+              {locationData.exampleCapability.disclaimer}
+            </p>
+            <div className="space-y-5">
+              <div>
+                <h3 className="font-[family-name:var(--font-playfair)] text-[18px] font-normal text-[#2D2D2D] mb-2">
+                  Situation
+                </h3>
+                <p className="text-[14px] leading-relaxed text-[#555]">
+                  {locationData.exampleCapability.situation}
+                </p>
+              </div>
+              <div>
+                <h3 className="font-[family-name:var(--font-playfair)] text-[18px] font-normal text-[#2D2D2D] mb-2">
+                  Our Approach
+                </h3>
+                <p className="text-[14px] leading-relaxed text-[#555]">
+                  {locationData.exampleCapability.ourApproach}
+                </p>
+              </div>
+              <div>
+                <h3 className="font-[family-name:var(--font-playfair)] text-[18px] font-normal text-[#2D2D2D] mb-2">
+                  Expected Outcome
+                </h3>
+                <p className="text-[14px] leading-relaxed text-[#555]">
+                  {locationData.exampleCapability.expectedOutcome}
+                </p>
+              </div>
+            </div>
+          </div>
+        )}
+
       </div>
+
+      {/* CTA Section */}
+      <section className="bg-[#D4C4B0] py-16 md:py-20">
+        <div className="max-w-4xl mx-auto px-6 text-center">
+          <h2 className="font-[family-name:var(--font-playfair)] text-[28px] md:text-[36px] font-normal tracking-[0.1em] uppercase text-[#5A2828] mb-6">
+            Find Replacement Properties in {location.name}
+          </h2>
+          <p className="text-[14px] text-[#5A2828]/80 mb-10 max-w-2xl mx-auto leading-relaxed">
+            Contact us to discuss 1031 exchange properties in {location.name}, {PRIMARY_STATE_ABBR}.
+          </p>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <Link
+              href="/contact"
+              className="px-10 py-3 bg-[#5A2828] text-[10px] font-medium tracking-[0.25em] uppercase text-white hover:bg-[#4A1F1F] transition-colors"
+            >
+              Contact Us
+            </Link>
+            <a
+              href={`tel:${PHONE_DIGITS}`}
+              className="px-10 py-3 border border-[#5A2828] text-[10px] font-medium tracking-[0.25em] uppercase text-[#5A2828] hover:bg-[#5A2828] hover:text-white transition-colors"
+            >
+              Call Now
+            </a>
+          </div>
+        </div>
+      </section>
 
       <Script
         id={`location-jsonld-${resolvedParams.slug}`}

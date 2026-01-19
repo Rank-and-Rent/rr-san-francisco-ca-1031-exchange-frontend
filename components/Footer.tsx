@@ -24,7 +24,7 @@ export default function Footer() {
             {/* Large Logo */}
             <div className="flex flex-col items-start">
               <div className="flex items-baseline">
-                <span className="font-[family-name:var(--font-playfair)] text-[80px] lg:text-[120px] font-light leading-none text-white">
+                <span className="font-[family-name:var(--font-playfair)] text-[80px] lg:text-[120px] font-normal leading-none text-white">
                   SF
                 </span>
                 <span className="text-[80px] lg:text-[120px] text-white">.</span>
@@ -75,7 +75,7 @@ export default function Footer() {
 
           {/* Right Side - Newsletter */}
           <div className="space-y-5">
-            <h2 className="font-[family-name:var(--font-playfair)] text-[24px] md:text-[28px] font-light italic tracking-wide text-white">
+            <h2 className="font-[family-name:var(--font-playfair)] text-[24px] md:text-[28px] font-normal italic tracking-wide text-white">
               NEWSLETTER
             </h2>
             <p className="text-[13px] text-white/70">

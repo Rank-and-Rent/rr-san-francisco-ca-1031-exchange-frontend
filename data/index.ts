@@ -1,6 +1,5 @@
 export * from "./types";
 export { servicesData } from "./services";
-// export { locationsData, poshNeighborhoods, sfAreas } from "./locations";
 export { locationsData } from "./locations";
 export { propertyTypesData } from "./property-types";
 export { inventoryCategories } from "./inventory-categories";

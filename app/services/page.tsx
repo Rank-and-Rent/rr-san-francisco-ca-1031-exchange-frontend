@@ -12,16 +12,16 @@ export const metadata: Metadata = {
   },
 };
 
-// Service images mapping
+// Service images mapping - using Unsplash free images
 const SERVICE_IMAGES: Record<string, string> = {
-  "forward-exchange": "/locations/1031-exchange-pacific-heights-ca.jpg",
-  "reverse-exchange": "/locations/1031-exchange-marina-district-ca.jpg",
-  "improvement-exchange": "/locations/1031-exchange-soma-ca.jpg",
-  "dst-investments": "/locations/1031-exchange-financial-district-ca.jpg",
-  "qualified-intermediary": "/locations/1031-exchange-palo-alto-ca.jpg",
-  "property-identification": "/locations/1031-exchange-oakland-ca.jpg",
-  "timeline-management": "/locations/1031-exchange-mission-bay-ca.jpg",
-  "tax-deferral": "/locations/1031-exchange-berkeley-ca.jpg",
+  "forward-exchange": "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2070&auto=format&fit=crop",
+  "reverse-exchange": "https://images.unsplash.com/photo-1560518883-ce09059eeffa?q=80&w=2073&auto=format&fit=crop",
+  "improvement-exchange": "https://images.unsplash.com/photo-1582407947304-fd86f028f716?q=80&w=2196&auto=format&fit=crop",
+  "dst-investments": "https://images.unsplash.com/photo-1464938050520-ef2571f65114?q=80&w=2074&auto=format&fit=crop",
+  "qualified-intermediary": "https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=2069&auto=format&fit=crop",
+  "property-identification": "https://images.unsplash.com/photo-1554469384-e58fac16e23a?q=80&w=2187&auto=format&fit=crop",
+  "timeline-management": "https://images.unsplash.com/photo-1449157291145-7efd050a4d0e?q=80&w=2070&auto=format&fit=crop",
+  "tax-deferral": "https://images.unsplash.com/photo-1568992687947-868a62a9f521?q=80&w=2072&auto=format&fit=crop",
 };
 
 export default function ServicesPage() {
@@ -30,12 +30,13 @@ export default function ServicesPage() {
       {/* Hero Section */}
       <section className="relative h-[50vh] min-h-[400px]">
         <Image
-          src="/locations/1031-exchange-financial-district-ca.jpg"
-          alt="San Francisco Financial District"
+          src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2070&auto=format&fit=crop"
+          alt="Modern commercial building"
           fill
           className="object-cover"
           priority
           sizes="100vw"
+          unoptimized
         />
         <div className="absolute inset-0 bg-black/50" />
         <div className="relative z-10 flex h-full flex-col items-center justify-center text-center px-6">
@@ -53,7 +54,7 @@ export default function ServicesPage() {
         <div className="px-4 md:px-6 lg:px-8">
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4">
             {servicesData.map((service) => {
-              const imageSrc = SERVICE_IMAGES[service.slug] || "/locations/1031-exchange-pacific-heights-ca.jpg";
+              const imageSrc = SERVICE_IMAGES[service.slug] || "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2070&auto=format&fit=crop";
               return (
                 <Link
                   key={service.slug}
@@ -67,6 +68,7 @@ export default function ServicesPage() {
                       fill
                       className="object-cover transition-transform duration-700 group-hover:scale-105"
                       sizes="(max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                      unoptimized
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
                     <div className="absolute bottom-0 left-0 right-0 p-4">
@@ -88,11 +90,12 @@ export default function ServicesPage() {
       {/* CTA Section */}
       <section className="relative py-20">
         <Image
-          src="/locations/1031-exchange-palo-alto-ca.jpg"
+          src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?q=80&w=2073&auto=format&fit=crop"
           alt="Bay Area property"
           fill
           className="object-cover"
           sizes="100vw"
+          unoptimized
         />
         <div className="absolute inset-0 bg-black/60" />
         <div className="relative z-10 max-w-2xl mx-auto px-6 text-center">

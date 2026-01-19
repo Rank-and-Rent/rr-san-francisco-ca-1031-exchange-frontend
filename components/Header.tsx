@@ -46,26 +46,19 @@ export default function Header() {
 
   // Show hero logo on transparent header, beautiful SF. logo when scrolled
   const LogoContent = () => {
-    if (isTransparent) {
-      // Hero style - simple text
-      return (
-        <div className="flex flex-col items-start">
-          <span className="font-[family-name:var(--font-playfair)] text-[22px] md:text-[26px] font-normal tracking-[0.15em] uppercase leading-none text-white">
-            SF 1031
-          </span>
-          <span className="text-[8px] font-medium tracking-[0.3em] uppercase mt-0.5 text-white/70">
-            Exchange
-          </span>
-        </div>
-      );
-    }
-    // Scrolled/other pages - Beautiful SF. logo like footer
+    const textColor = isTransparent ? "text-white" : "text-[#5A2828]";
+    const subTextColor = isTransparent ? "text-white/60" : "text-[#5A2828]/70";
+    
+    // Matching the screenshot exactly: SF with dot, 1031 underneath
     return (
-      <div className="flex items-baseline gap-1">
-        <span className="font-[family-name:var(--font-playfair)] text-[32px] md:text-[38px] font-normal tracking-[0.02em] text-[#5A2828]">
-          SF.
-        </span>
-        <span className="font-[family-name:var(--font-playfair)] text-[14px] md:text-[16px] font-normal tracking-[0.2em] uppercase text-[#5A2828]">
+      <div className="flex flex-col items-center">
+        <div className="flex items-baseline">
+          <span className={`font-[family-name:var(--font-playfair)] text-[32px] md:text-[40px] font-normal leading-none ${textColor}`}>
+            SF
+          </span>
+          <span className={`text-[32px] md:text-[40px] font-normal ${textColor}`}>.</span>
+        </div>
+        <span className={`text-[8px] md:text-[9px] font-medium tracking-[0.35em] uppercase -mt-1 ${subTextColor}`}>
           1031
         </span>
       </div>
@@ -145,11 +138,14 @@ export default function Header() {
       >
         {/* Menu Header */}
         <div className="flex items-center justify-between px-6 lg:px-12 py-4 border-b border-[#E5E0D8]">
-          <Link href="/" onClick={() => setMobileMenuOpen(false)} className="flex items-baseline gap-1">
-            <span className="font-[family-name:var(--font-playfair)] text-[32px] md:text-[38px] font-normal tracking-[0.02em] text-[#5A2828]">
-              SF.
-            </span>
-            <span className="font-[family-name:var(--font-playfair)] text-[14px] md:text-[16px] font-normal tracking-[0.2em] uppercase text-[#5A2828]">
+          <Link href="/" onClick={() => setMobileMenuOpen(false)} className="flex flex-col items-center">
+            <div className="flex items-baseline">
+              <span className="font-[family-name:var(--font-playfair)] text-[32px] md:text-[38px] font-normal leading-none text-[#5A2828]">
+                SF
+              </span>
+              <span className="text-[32px] md:text-[38px] text-[#5A2828]">.</span>
+            </div>
+            <span className="text-[8px] md:text-[9px] font-medium tracking-[0.35em] uppercase -mt-1 text-[#5A2828]/70">
               1031
             </span>
           </Link>
