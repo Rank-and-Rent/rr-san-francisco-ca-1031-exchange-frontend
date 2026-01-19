@@ -1,151 +1,160 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { PHONE, PHONE_DIGITS, EMAIL, OFFICE_ADDRESS, PRIMARY_CITY, PRIMARY_STATE_ABBR } from "@/lib/config";
+import { SERVICES } from "@/lib/services";
+import { locationsData } from "@/data";
 
 export default function Footer() {
-  const [email, setEmail] = useState("");
-  const [consent, setConsent] = useState(false);
   const currentYear = new Date().getFullYear();
+  
+  // Get first 10 services for display
+  const displayServices = SERVICES.slice(0, 10);
+  const totalServices = SERVICES.length;
+  
+  // Get first 10 locations for display
+  const displayLocations = locationsData.slice(0, 10);
+  const totalLocations = locationsData.length;
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    console.log("Newsletter signup:", email);
-  };
+  const mapSrc = `https://www.google.com/maps?q=${encodeURIComponent(OFFICE_ADDRESS)}&output=embed`;
 
   return (
-    <footer className="bg-[#5A2828]">
+    <footer className="bg-[#1a1a1a] text-white">
       {/* Main Footer Content */}
-      <div className="max-w-[1400px] mx-auto px-6 lg:px-12 py-14 lg:py-16">
-        <div className="grid lg:grid-cols-2 gap-10 lg:gap-16">
+      <div className="max-w-7xl mx-auto px-6 py-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10">
           
-          {/* Left Side - Logo and Locations */}
-          <div className="space-y-8">
-            {/* Large Logo */}
-            <div className="flex flex-col items-start">
-              <div className="flex items-baseline">
-                <span className="font-[family-name:var(--font-playfair)] text-[80px] lg:text-[120px] font-normal leading-none text-white">
-                  SF
-                </span>
-                <span className="text-[80px] lg:text-[120px] text-white">.</span>
-              </div>
-              <span className="text-[11px] font-medium tracking-[0.4em] uppercase text-white/70 -mt-3 ml-1">
-                1031
-              </span>
-            </div>
-
-            {/* Locations */}
-            <div className="space-y-3">
-              <h3 className="text-[10px] font-medium tracking-[0.3em] uppercase text-white/50">
-                Locations
-              </h3>
-              <div className="space-y-1 text-[13px] text-white/80">
-                <p>50 California Street</p>
-                <p>San Francisco, CA 94111</p>
-              </div>
-              <div className="space-y-1 text-[13px] text-white/80 pt-2">
-                <p>525 University Avenue</p>
-                <p>Palo Alto, CA 94301</p>
-              </div>
-            </div>
-
-            {/* Social Icons */}
-            <div className="flex items-center gap-3">
-              {[
-                { label: "Instagram", path: "M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" },
-                { label: "Facebook", path: "M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" },
-                { label: "YouTube", path: "M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" },
-                { label: "TikTok", path: "M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z" },
-              ].map((social) => (
-                <a
-                  key={social.label}
-                  href="#"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-8 h-8 flex items-center justify-center text-white/70 hover:text-white transition-colors"
-                  aria-label={social.label}
-                >
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                    <path d={social.path} />
-                  </svg>
+          {/* Contact Column */}
+          <div className="lg:col-span-1">
+            <h3 className="text-[11px] font-medium tracking-[0.2em] uppercase text-white/50 mb-5">Contact</h3>
+            <div className="space-y-4">
+              <p className="font-[family-name:var(--font-playfair)] text-lg text-white">
+                1031 Exchange {PRIMARY_CITY}
+              </p>
+              <p className="text-sm text-white/70 leading-relaxed">
+                {OFFICE_ADDRESS}
+              </p>
+              <div className="space-y-2 pt-2">
+                <a href={`tel:${PHONE_DIGITS}`} className="block text-sm text-white/70 hover:text-[#C4A87C] transition-colors">
+                  {PHONE}
                 </a>
-              ))}
+                <a href={`mailto:${EMAIL}`} className="block text-sm text-white/70 hover:text-[#C4A87C] transition-colors">
+                  {EMAIL}
+                </a>
+                <p className="text-sm text-white/70">Mon-Fri: 9am-5pm PST</p>
+              </div>
             </div>
           </div>
 
-          {/* Right Side - Newsletter */}
-          <div className="space-y-5">
-            <h2 className="font-[family-name:var(--font-playfair)] text-[24px] md:text-[28px] font-normal italic tracking-wide text-white">
-              NEWSLETTER
-            </h2>
-            <p className="text-[13px] text-white/70">
-              Subscribe to our Newsletter for latest news and updates. Stay tuned!
-            </p>
-
-            <form onSubmit={handleSubmit} className="space-y-5">
-              <div className="border-b border-white/30">
-                <input
-                  type="email"
-                  placeholder="Email Address"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="w-full bg-transparent py-2.5 text-[13px] text-white placeholder:text-white/40 focus:outline-none"
-                  required
-                />
-              </div>
-
-              <div className="flex items-start gap-2.5">
-                <input
-                  type="checkbox"
-                  id="consent"
-                  checked={consent}
-                  onChange={(e) => setConsent(e.target.checked)}
-                  className="mt-1 h-3.5 w-3.5 rounded-none border-white/30 bg-transparent"
-                  required
-                />
-                <label htmlFor="consent" className="text-[10px] leading-relaxed text-white/50">
-                  I agree to be contacted by SF 1031 via call, email, and text for real estate services. To opt out, you can reply &apos;stop&apos; at any time or reply &apos;help&apos; for assistance. You can also click the unsubscribe link in the emails. Message and data rates may apply. Message frequency may vary.{" "}
-                  <Link href="/privacy" className="underline hover:text-white/70">
-                    Privacy Policy
+          {/* Services Column */}
+          <div className="lg:col-span-1">
+            <h3 className="text-[11px] font-medium tracking-[0.2em] uppercase text-white/50 mb-5">Services</h3>
+            <ul className="space-y-2">
+              {displayServices.map((service) => (
+                <li key={service.slug}>
+                  <Link href={`/services/${service.slug}`} className="text-sm text-white/70 hover:text-[#C4A87C] transition-colors">
+                    {service.title}
                   </Link>
-                  .
-                </label>
-              </div>
+                </li>
+              ))}
+              <li className="pt-2">
+                <Link href="/services" className="text-sm text-[#C4A87C] hover:text-white transition-colors">
+                  View All {totalServices} Services →
+                </Link>
+              </li>
+            </ul>
+          </div>
 
-              <button
-                type="submit"
-                className="px-8 py-2.5 border border-white/30 text-[10px] font-medium tracking-[0.25em] uppercase text-white hover:bg-white hover:text-[#5A2828] transition-all duration-300"
-              >
-                Subscribe
-              </button>
-            </form>
+          {/* Locations Column */}
+          <div className="lg:col-span-1">
+            <h3 className="text-[11px] font-medium tracking-[0.2em] uppercase text-white/50 mb-5">Locations</h3>
+            <ul className="space-y-2">
+              {displayLocations.map((location) => (
+                <li key={location.slug}>
+                  <Link href={`/service-areas/${location.slug}`} className="text-sm text-white/70 hover:text-[#C4A87C] transition-colors">
+                    {location.name}
+                  </Link>
+                </li>
+              ))}
+              <li className="pt-2">
+                <Link href="/service-areas" className="text-sm text-[#C4A87C] hover:text-white transition-colors">
+                  View All {totalLocations} Locations →
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          {/* Quick Links & Tools Column */}
+          <div className="lg:col-span-1">
+            <h3 className="text-[11px] font-medium tracking-[0.2em] uppercase text-white/50 mb-5">Quick Links</h3>
+            <ul className="space-y-2 mb-8">
+              <li><Link href="/property-types" className="text-sm text-white/70 hover:text-[#C4A87C] transition-colors">Property Types</Link></li>
+              <li><Link href="/blog" className="text-sm text-white/70 hover:text-[#C4A87C] transition-colors">Blog</Link></li>
+              <li><Link href="/about" className="text-sm text-white/70 hover:text-[#C4A87C] transition-colors">About</Link></li>
+              <li><Link href="/contact" className="text-sm text-white/70 hover:text-[#C4A87C] transition-colors">Contact</Link></li>
+            </ul>
+
+            <h3 className="text-[11px] font-medium tracking-[0.2em] uppercase text-white/50 mb-5">Tools</h3>
+            <ul className="space-y-2">
+              <li><Link href="/tools/boot-calculator" className="text-sm text-white/70 hover:text-[#C4A87C] transition-colors">Boot Calculator</Link></li>
+              <li><Link href="/tools/exchange-cost-estimator" className="text-sm text-white/70 hover:text-[#C4A87C] transition-colors">Exchange Cost Estimator</Link></li>
+              <li><Link href="/tools/identification-rules-checker" className="text-sm text-white/70 hover:text-[#C4A87C] transition-colors">Identification Rules Checker</Link></li>
+              <li className="pt-2">
+                <Link href="/tools" className="text-sm text-[#C4A87C] hover:text-white transition-colors">
+                  View All Tools →
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          {/* Legal & Map Column */}
+          <div className="lg:col-span-1">
+            <h3 className="text-[11px] font-medium tracking-[0.2em] uppercase text-white/50 mb-5">Legal</h3>
+            <ul className="space-y-2 mb-8">
+              <li><Link href="/privacy" className="text-sm text-white/70 hover:text-[#C4A87C] transition-colors">Privacy Policy</Link></li>
+              <li><Link href="/terms" className="text-sm text-white/70 hover:text-[#C4A87C] transition-colors">Terms of Service</Link></li>
+              <li><Link href="/sitemap.xml" className="text-sm text-white/70 hover:text-[#C4A87C] transition-colors">Sitemap</Link></li>
+            </ul>
+
+            {/* Google Maps Embed */}
+            <div className="h-32 w-full overflow-hidden bg-white/10">
+              <iframe
+                title={`Map of ${OFFICE_ADDRESS}`}
+                src={mapSrc}
+                width="100%"
+                height="100%"
+                loading="lazy"
+                allowFullScreen
+                referrerPolicy="no-referrer-when-downgrade"
+                className="grayscale opacity-80 hover:grayscale-0 hover:opacity-100 transition-all duration-300"
+              />
+            </div>
           </div>
         </div>
       </div>
 
-      {/* Bottom Credit Bar */}
+      {/* Compliance Section */}
       <div className="border-t border-white/10">
-        <div className="max-w-[1400px] mx-auto px-6 lg:px-12 py-4">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-3 text-[10px] text-white/40">
-            <p>
-              Website Designed &amp; Developed by{" "}
-              <span className="underline">SF 1031 Exchange</span>
-            </p>
-            <p>
-              Copyright {currentYear} |{" "}
-              <Link href="/privacy" className="underline hover:text-white/60">
-                Privacy Policy
-              </Link>
-            </p>
+        <div className="max-w-7xl mx-auto px-6 py-8">
+          <p className="text-[11px] text-white/40 leading-relaxed mb-4">
+            <span className="text-white/60 font-medium">Compliance:</span> This site helps investors identify potential replacement properties for Section 1031 exchanges. This site is not a Qualified Intermediary, law firm, broker, or CPA. Users should consult a Qualified Intermediary and tax advisor before acting.
+          </p>
+          <div className="flex flex-wrap gap-4 text-[11px] text-white/40">
+            <a href="https://www.irs.gov/forms-pubs/about-form-8824" target="_blank" rel="noopener noreferrer" className="hover:text-[#C4A87C] transition-colors">
+              IRS Form 8824
+            </a>
+            <a href="https://www.irs.gov/irb/2008-10_IRB#REV-PROC-2008-16" target="_blank" rel="noopener noreferrer" className="hover:text-[#C4A87C] transition-colors">
+              Rev. Proc. 2008-16
+            </a>
           </div>
         </div>
       </div>
 
-      {/* Legal Disclaimer */}
-      <div className="border-t border-white/10 bg-[#4A1F1F]">
-        <div className="max-w-[1400px] mx-auto px-6 lg:px-12 py-5">
-          <p className="text-[8px] uppercase leading-[1.8] tracking-[0.05em] text-white/30">
-            &copy;{currentYear} SF 1031 EXCHANGE INC. THIS SITE PROVIDES INFORMATION ABOUT 1031 EXCHANGES AND HELPS INVESTORS IDENTIFY REPLACEMENT PROPERTIES. THIS SITE IS NOT A QUALIFIED INTERMEDIARY, TAX ADVISOR, OR LEGAL COUNSEL. USERS SHOULD CONSULT LICENSED PROFESSIONALS BEFORE PROCEEDING WITH ANY EXCHANGE. EQUAL HOUSING OPPORTUNITY.
+      {/* Copyright Bar */}
+      <div className="border-t border-white/10 bg-black/20">
+        <div className="max-w-7xl mx-auto px-6 py-4">
+          <p className="text-[10px] text-white/30 text-center">
+            © {currentYear} 1031 Exchange {PRIMARY_CITY}. All rights reserved. Equal Housing Opportunity.
           </p>
         </div>
       </div>
