@@ -25,14 +25,14 @@ body {
 }
 
 body {
-  font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family: var(--font-montserrat), -apple-system, BlinkMacSystemFont, sans-serif;
   background-color: #F7F5F2;
   color: #2D2D2D;
   -webkit-font-smoothing: antialiased;
 }
 
 .font-serif {
-  font-family: 'Playfair Display', Georgia, serif;
+  font-family: var(--font-playfair), Georgia, serif;
 }
 
 :where(a, button, [role="button"], input, select, textarea):focus-visible {
