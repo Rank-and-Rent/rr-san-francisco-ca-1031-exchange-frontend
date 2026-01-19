@@ -76,7 +76,7 @@ export default function ContactPopup() {
               Our team of experts is ready to help you navigate your tax-deferred exchange. Get personalized guidance for your investment goals.
             </p>
 
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <div className="flex justify-center">
               <Link
                 href="/contact"
                 onClick={handleDismiss}
@@ -84,12 +84,6 @@ export default function ContactPopup() {
               >
                 Schedule Consultation
               </Link>
-              <a
-                href="tel:+14159172994"
-                className="px-8 py-3 border border-white/40 text-[10px] font-medium tracking-[0.25em] uppercase text-white hover:bg-white/10 transition-colors"
-              >
-                Call Now
-              </a>
             </div>
 
             <p className="mt-6 text-[11px] text-white/50">
