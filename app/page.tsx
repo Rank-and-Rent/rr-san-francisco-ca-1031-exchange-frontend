@@ -74,21 +74,25 @@ const SERVICES = [
     title: "Forward Exchange",
     description: "Traditional 1031 exchange where you sell your property first, then acquire replacement property within 180 days.",
     slug: "forward-exchange",
+    image: "/locations/1031-exchange-pacific-heights-ca.jpg",
   },
   {
     title: "Reverse Exchange",
     description: "Acquire replacement property before selling your relinquished property when timing requires flexibility.",
     slug: "reverse-exchange",
+    image: "/locations/1031-exchange-marina-district-ca.jpg",
   },
   {
     title: "Improvement Exchange",
     description: "Use exchange funds to make improvements on replacement property before completing the exchange.",
     slug: "improvement-exchange",
+    image: "/locations/1031-exchange-soma-ca.jpg",
   },
   {
     title: "Delaware Statutory Trust",
     description: "Fractional ownership in institutional-grade properties for passive investors seeking diversification.",
     slug: "dst-investments",
+    image: "/locations/1031-exchange-financial-district-ca.jpg",
   },
 ];
 
@@ -156,7 +160,7 @@ export default function Home() {
         {/* Hero Content */}
         <div className="relative z-10 flex h-full flex-col items-center justify-center text-center text-white px-6">
           <h1 className="font-[family-name:var(--font-playfair)] text-[28px] md:text-[38px] lg:text-[48px] font-normal tracking-[0.15em] uppercase">
-            Access Our Off-Market Properties
+            1031 Exchange San Francisco
               </h1>
           <p className="mt-6 max-w-2xl text-[14px] md:text-[16px] font-light tracking-wide leading-relaxed">
             Private offerings. Contact SF 1031 Exchange for private access to off-market investment properties.
@@ -169,14 +173,14 @@ export default function Home() {
             {HERO_STATS.map((stat, index) => (
               <div 
                 key={stat.label} 
-                className={`bg-[#4A5568]/60 backdrop-blur-sm px-10 md:px-16 py-6 text-center text-white ${
+                className={`bg-[#4A5568]/60 backdrop-blur-sm px-8 md:px-14 py-5 text-center text-white ${
                   index !== HERO_STATS.length - 1 ? "border-r border-white/20" : ""
                 }`}
               >
-                <div className="font-[family-name:var(--font-playfair)] text-[24px] md:text-[32px] font-normal">
+                <div className="font-[family-name:var(--font-playfair)] text-[22px] md:text-[30px] font-normal">
                   {stat.value}
                 </div>
-                <div className="mt-2 text-[9px] md:text-[10px] font-medium tracking-[0.2em] uppercase opacity-80">
+                <div className="mt-1 text-[8px] md:text-[9px] font-medium tracking-[0.2em] uppercase opacity-80">
                   {stat.label}
                 </div>
               </div>
@@ -198,16 +202,12 @@ export default function Home() {
               </div>
           </section>
 
-      {/* ==================== ABOUT SECTION - Like Carolwood ==================== */}
-      <section id="about" className="relative min-h-[700px]">
-        {/* Background Image - luxury home interior */}
-                            <Image
-          src="/locations/1031-exchange-pacific-heights-ca.jpg"
-          alt="Luxury home interior"
-          fill
-          className="object-cover"
-          sizes="100vw"
-        />
+      {/* ==================== ABOUT SECTION - Parallax Effect ==================== */}
+      <section 
+        id="about" 
+        className="relative min-h-[700px] bg-fixed bg-cover bg-center"
+        style={{ backgroundImage: "url('/locations/1031-exchange-pacific-heights-ca.jpg')" }}
+      >
         <div className="absolute inset-0 bg-black/40" />
         
         <div className="relative z-10 flex min-h-[700px] items-center justify-center px-6 py-24">
@@ -252,14 +252,14 @@ export default function Home() {
               </div>
           </section>
 
-      {/* ==================== SF AREAS - 2 ROWS OF 3 ==================== */}
+      {/* ==================== SF AREAS - Full width, edge to edge ==================== */}
       <section className="bg-[#F7F5F2] py-16 md:py-20">
-        <div className="max-w-6xl mx-auto px-6">
+        <div className="px-4 md:px-6 lg:px-8">
           <h2 className="text-center font-[family-name:var(--font-playfair)] text-[28px] md:text-[36px] font-normal tracking-[0.1em] uppercase text-[#333] mb-10">
             San Francisco Areas
           </h2>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4">
             {SF_AREAS.map((area) => (
               <Link
                 key={area.slug}
@@ -272,14 +272,14 @@ export default function Home() {
                     alt={area.name}
                     fill
                     className="object-cover transition-transform duration-700 group-hover:scale-105"
-                    sizes="(max-width: 768px) 100vw, 33vw"
+                    sizes="(max-width: 768px) 50vw, 33vw"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
-                  <div className="absolute bottom-0 left-0 right-0 p-5">
-                    <h3 className="font-[family-name:var(--font-playfair)] text-[18px] md:text-[20px] font-normal tracking-[0.08em] text-white">
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+                  <div className="absolute bottom-0 left-0 right-0 p-4 md:p-5">
+                    <h3 className="font-[family-name:var(--font-playfair)] text-[14px] md:text-[18px] font-normal tracking-[0.08em] text-white">
                       {area.name}
                     </h3>
-                    <p className="mt-1 text-[13px] text-white/80">{area.price}</p>
+                    <p className="mt-1 text-[11px] md:text-[13px] text-white/80">{area.price}</p>
                         </div>
                 </div>
               </Link>
@@ -326,37 +326,43 @@ export default function Home() {
               </div>
           </section>
 
-      {/* ==================== SERVICES SECTION ==================== */}
-      <section className="bg-[#F7F5F2] py-20">
-        <div className="max-w-6xl mx-auto px-6">
+      {/* ==================== SERVICES SECTION - Mirror Locations Aesthetic ==================== */}
+      <section className="bg-[#F7F5F2] py-16 md:py-20">
+        <div className="px-4 md:px-6 lg:px-8">
           <h2 className="text-center font-[family-name:var(--font-playfair)] text-[28px] md:text-[36px] font-normal tracking-[0.1em] uppercase text-[#333] mb-4">
             Our Services
           </h2>
-          <p className="text-center text-[14px] text-[#666] mb-12 max-w-2xl mx-auto">
+          <p className="text-center text-[14px] text-[#666] mb-10 max-w-2xl mx-auto">
             Comprehensive 1031 exchange solutions tailored to your investment strategy
           </p>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
             {SERVICES.map((service) => (
               <Link
                 key={service.slug}
                 href={`/services/${service.slug}`}
-                className="group block bg-white border border-[#E5E0D8] p-8 hover:border-[#5A2828] transition-colors"
+                className="group relative block"
               >
-                <h3 className="font-[family-name:var(--font-playfair)] text-[20px] md:text-[24px] font-normal text-[#333] group-hover:text-[#5A2828] transition-colors">
-                  {service.title}
-                </h3>
-                <p className="mt-4 text-[14px] text-[#666] leading-relaxed">
-                  {service.description}
-                </p>
-                <div className="mt-6 text-[10px] font-medium tracking-[0.2em] uppercase text-[#5A2828]">
-                  Learn More
+                <div className="relative aspect-[4/3] overflow-hidden">
+                  <Image
+                    src={service.image}
+                    alt={service.title}
+                    fill
+                    className="object-cover transition-transform duration-700 group-hover:scale-105"
+                    sizes="(max-width: 768px) 50vw, 25vw"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
+                  <div className="absolute bottom-0 left-0 right-0 p-4">
+                    <h3 className="font-[family-name:var(--font-playfair)] text-[13px] md:text-[16px] font-normal tracking-[0.05em] text-white leading-tight">
+                      {service.title}
+                    </h3>
+                  </div>
                 </div>
               </Link>
             ))}
                 </div>
 
-          <div className="mt-12 text-center">
+          <div className="mt-10 text-center">
             <Link
               href="/services"
               className="inline-block px-10 py-3 border border-[#5A2828] text-[10px] font-medium tracking-[0.25em] uppercase text-[#5A2828] hover:bg-[#5A2828] hover:text-white transition-colors"

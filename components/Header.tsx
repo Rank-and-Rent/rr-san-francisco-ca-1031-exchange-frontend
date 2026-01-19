@@ -31,7 +31,6 @@ export default function Header() {
     setMobileMenuOpen(false);
   }, [pathname]);
 
-  // Prevent body scroll when menu is open
   useEffect(() => {
     if (mobileMenuOpen) {
       document.body.style.overflow = "hidden";
@@ -45,6 +44,34 @@ export default function Header() {
 
   const isTransparent = isHomepage && !scrolled && !mobileMenuOpen;
 
+  // Show hero logo on transparent header, beautiful SF. logo when scrolled
+  const LogoContent = () => {
+    if (isTransparent) {
+      // Hero style - simple text
+      return (
+        <div className="flex flex-col items-start">
+          <span className="font-[family-name:var(--font-playfair)] text-[22px] md:text-[26px] font-normal tracking-[0.15em] uppercase leading-none text-white">
+            SF 1031
+          </span>
+          <span className="text-[8px] font-medium tracking-[0.3em] uppercase mt-0.5 text-white/70">
+            Exchange
+          </span>
+        </div>
+      );
+    }
+    // Scrolled/other pages - Beautiful SF. logo like footer
+    return (
+      <div className="flex items-baseline gap-1">
+        <span className="font-[family-name:var(--font-playfair)] text-[32px] md:text-[38px] font-normal tracking-[0.02em] text-[#5A2828]">
+          SF.
+        </span>
+        <span className="font-[family-name:var(--font-playfair)] text-[14px] md:text-[16px] font-normal tracking-[0.2em] uppercase text-[#5A2828]">
+          1031
+        </span>
+      </div>
+    );
+  };
+
   return (
     <>
       <header
@@ -54,19 +81,10 @@ export default function Header() {
             : "bg-[#F7F5F2] border-b border-[#E5E0D8]"
         }`}
       >
-        <nav className="max-w-[1400px] mx-auto flex items-center justify-between px-6 lg:px-12 py-5">
+        <nav className="max-w-[1400px] mx-auto flex items-center justify-between px-6 lg:px-12 py-4">
           {/* Logo */}
-          <Link href="/" className="flex flex-col items-start hover:opacity-80 transition-opacity">
-            <span 
-              className={`font-[family-name:var(--font-playfair)] text-[22px] md:text-[26px] font-normal tracking-[0.15em] uppercase leading-none ${isTransparent ? "text-white" : "text-[#2D2D2D]"}`}
-            >
-              SF 1031
-            </span>
-            <span 
-              className={`text-[8px] font-medium tracking-[0.3em] uppercase mt-0.5 ${isTransparent ? "text-white/70" : "text-[#888]"}`}
-            >
-              Exchange
-            </span>
+          <Link href="/" className="hover:opacity-80 transition-opacity">
+            <LogoContent />
           </Link>
 
           {/* Right side navigation */}
@@ -88,7 +106,7 @@ export default function Header() {
               className={`hidden md:block px-5 py-2 text-[10px] font-medium tracking-[0.2em] uppercase border transition-all duration-300 ${
                 isTransparent
                   ? "border-white/60 text-white hover:bg-white hover:text-[#2D2D2D]"
-                  : "border-[#2D2D2D] text-[#2D2D2D] hover:bg-[#2D2D2D] hover:text-white"
+                  : "border-[#5A2828] text-[#5A2828] hover:bg-[#5A2828] hover:text-white"
               }`}
             >
               Contact Us
@@ -126,13 +144,13 @@ export default function Header() {
         }`}
       >
         {/* Menu Header */}
-        <div className="flex items-center justify-between px-6 lg:px-12 py-5 border-b border-[#E5E0D8]">
-          <Link href="/" onClick={() => setMobileMenuOpen(false)} className="flex flex-col items-start">
-            <span className="font-[family-name:var(--font-playfair)] text-[22px] md:text-[26px] font-normal tracking-[0.15em] uppercase leading-none text-[#2D2D2D]">
-              SF 1031
+        <div className="flex items-center justify-between px-6 lg:px-12 py-4 border-b border-[#E5E0D8]">
+          <Link href="/" onClick={() => setMobileMenuOpen(false)} className="flex items-baseline gap-1">
+            <span className="font-[family-name:var(--font-playfair)] text-[32px] md:text-[38px] font-normal tracking-[0.02em] text-[#5A2828]">
+              SF.
             </span>
-            <span className="text-[8px] font-medium tracking-[0.3em] uppercase mt-0.5 text-[#888]">
-              Exchange
+            <span className="font-[family-name:var(--font-playfair)] text-[14px] md:text-[16px] font-normal tracking-[0.2em] uppercase text-[#5A2828]">
+              1031
             </span>
           </Link>
           <button

@@ -5,6 +5,7 @@ import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import StickyCTA from "@/components/StickyCTA";
+import ContactPopup from "@/components/ContactPopup";
 import { SITE_NAME, SITE_URL } from "@/lib/config";
 
 const playfair = Playfair_Display({
@@ -49,6 +50,7 @@ export default function RootLayout({
         <main>{children}</main>
         <Footer />
         <StickyCTA />
+        <ContactPopup />
         <Analytics />
       </body>
     </html>

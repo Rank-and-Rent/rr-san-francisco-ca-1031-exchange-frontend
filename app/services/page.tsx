@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { servicesData } from "@/data";
-import { SITE_NAME, SITE_URL, PRIMARY_CITY, PRIMARY_STATE_ABBR } from "@/lib/config";
+import { SITE_URL, PRIMARY_CITY, PRIMARY_STATE_ABBR } from "@/lib/config";
 
 export const metadata: Metadata = {
   title: `1031 Exchange Services in ${PRIMARY_CITY}, ${PRIMARY_STATE_ABBR}`,
@@ -10,6 +10,18 @@ export const metadata: Metadata = {
   alternates: {
     canonical: `${SITE_URL}/services`,
   },
+};
+
+// Service images mapping
+const SERVICE_IMAGES: Record<string, string> = {
+  "forward-exchange": "/locations/1031-exchange-pacific-heights-ca.jpg",
+  "reverse-exchange": "/locations/1031-exchange-marina-district-ca.jpg",
+  "improvement-exchange": "/locations/1031-exchange-soma-ca.jpg",
+  "dst-investments": "/locations/1031-exchange-financial-district-ca.jpg",
+  "qualified-intermediary": "/locations/1031-exchange-palo-alto-ca.jpg",
+  "property-identification": "/locations/1031-exchange-oakland-ca.jpg",
+  "timeline-management": "/locations/1031-exchange-mission-bay-ca.jpg",
+  "tax-deferral": "/locations/1031-exchange-berkeley-ca.jpg",
 };
 
 export default function ServicesPage() {
@@ -36,27 +48,39 @@ export default function ServicesPage() {
         </div>
       </section>
 
-      {/* Services Grid */}
-      <section className="py-20 md:py-28">
-        <div className="max-w-6xl mx-auto px-6">
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {servicesData.map((service) => (
-              <Link
-                key={service.slug}
-                href={`/services/${service.slug}`}
-                className="group block bg-white border border-[#E5E0D8] p-8 hover:border-[#5A2828] transition-colors"
-              >
-                <h2 className="font-[family-name:var(--font-playfair)] text-[20px] md:text-[22px] font-normal text-[#333] group-hover:text-[#5A2828] transition-colors mb-4">
-                  {service.name}
-                </h2>
-                <p className="text-[14px] text-[#666] leading-relaxed mb-6">
-                  {service.short}
-                </p>
-                <span className="text-[10px] font-medium tracking-[0.2em] uppercase text-[#5A2828]">
-                  Learn More
-                </span>
-              </Link>
-            ))}
+      {/* Services Grid - Mirror Locations Aesthetic */}
+      <section className="py-16 md:py-20">
+        <div className="px-4 md:px-6 lg:px-8">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4">
+            {servicesData.map((service) => {
+              const imageSrc = SERVICE_IMAGES[service.slug] || "/locations/1031-exchange-pacific-heights-ca.jpg";
+              return (
+                <Link
+                  key={service.slug}
+                  href={`/services/${service.slug}`}
+                  className="group relative block"
+                >
+                  <div className="relative aspect-[4/3] overflow-hidden">
+                    <Image
+                      src={imageSrc}
+                      alt={service.name}
+                      fill
+                      className="object-cover transition-transform duration-700 group-hover:scale-105"
+                      sizes="(max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
+                    <div className="absolute bottom-0 left-0 right-0 p-4">
+                      <h2 className="font-[family-name:var(--font-playfair)] text-[13px] md:text-[16px] font-normal tracking-[0.05em] text-white leading-tight mb-1">
+                        {service.name}
+                      </h2>
+                      <p className="text-[10px] md:text-[11px] text-white/70 line-clamp-2 hidden md:block">
+                        {service.short}
+                      </p>
+                    </div>
+                  </div>
+                </Link>
+              );
+            })}
           </div>
         </div>
       </section>
