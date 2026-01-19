@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { IBM_Plex_Serif, Inter } from "next/font/google";
+import { Playfair_Display, Montserrat } from "next/font/google";
 import { Analytics } from "@vercel/analytics/react";
 import "./globals.css";
 import Header from "@/components/Header";
@@ -7,15 +7,18 @@ import Footer from "@/components/Footer";
 import StickyCTA from "@/components/StickyCTA";
 import { SITE_NAME, SITE_URL } from "@/lib/config";
 
-const plexSerif = IBM_Plex_Serif({
-  variable: "--font-plex-serif",
+const playfair = Playfair_Display({
+  variable: "--font-playfair",
   subsets: ["latin"],
-  weight: ["400", "700"],
+  weight: ["400", "500", "600"],
+  display: "swap",
 });
 
-const inter = Inter({
-  variable: "--font-inter",
+const montserrat = Montserrat({
+  variable: "--font-montserrat",
   subsets: ["latin"],
+  weight: ["300", "400", "500", "600"],
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -40,8 +43,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${plexSerif.variable} ${inter.variable}`}>
-      <body className="antialiased">
+    <html lang="en" className={`${playfair.variable} ${montserrat.variable}`}>
+      <body className="font-[family-name:var(--font-montserrat)] antialiased">
         <Header />
         <main>{children}</main>
         <Footer />
