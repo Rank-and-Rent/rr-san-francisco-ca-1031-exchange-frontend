@@ -10,90 +10,80 @@ import {
   PHONE_DIGITS,
   HAS_STAFFED_OFFICE,
 } from "@/lib/config";
-import { locationsData, poshNeighborhoods } from "@/data/locations";
 
-// Hero images for the carousel
+// Hero images for the carousel - exactly like Carolwood
 const HERO_IMAGES = [
-  {
-    src: "/san-francisco-hero.jpg",
-    alt: "San Francisco skyline at dusk",
-  },
-  {
-    src: "/locations/1031-exchange-pacific-heights-ca.jpg",
-    alt: "Pacific Heights luxury real estate",
-  },
-  {
-    src: "/locations/1031-exchange-marina-district-ca.jpg",
-    alt: "Marina District waterfront properties",
-  },
+  "/san-francisco-hero.jpg",
+  "/locations/1031-exchange-pacific-heights-ca.jpg",
+  "/locations/1031-exchange-marina-district-ca.jpg",
 ];
 
-// Stats for the hero section
+// Stats for the hero section - like Carolwood's $1.3B, $5B, $2.2B
 const HERO_STATS = [
-  { value: "$850M", label: "Exchange Volume" },
-  { value: "500+", label: "Exchanges Completed" },
-  { value: "$2.1B", label: "Properties Identified" },
+  { value: "$850M", label: "EXCHANGE VOLUME" },
+  { value: "500+", label: "EXCHANGES COMPLETED" },
+  { value: "$2.1B", label: "PROPERTIES IDENTIFIED" },
 ];
 
-// Property types we handle (like the "Featured In" logos but for property types)
-const PROPERTY_TYPES_SHOWCASE = [
-  { name: "NNN", description: "Triple Net Lease" },
-  { name: "RESIDENTIAL", description: "Single & Multi-Family" },
-  { name: "COMMERCIAL", description: "Office & Retail" },
-  { name: "INDUSTRIAL", description: "Warehouse & Flex" },
-  { name: "MULTIFAMILY", description: "Apartments" },
-  { name: "MEDICAL", description: "Healthcare Facilities" },
-  { name: "SELF STORAGE", description: "Storage Units" },
+// Property types - replaces Carolwood's "Featured In" publications
+const PROPERTY_TYPES = [
+  "NNN",
+  "RESIDENTIAL", 
+  "COMMERCIAL",
+  "INDUSTRIAL",
+  "MULTIFAMILY",
+  "MEDICAL",
+  "SELF STORAGE",
 ];
 
-// San Francisco premium areas for the carousel
-const SF_PREMIUM_AREAS = [
+// San Francisco premium areas - like Carolwood Sold properties
+const SF_AREAS = [
   {
     slug: "pacific-heights-ca",
-    name: "Pacific Heights",
-    price: "$5.2M Average",
+    name: "PACIFIC HEIGHTS",
+    price: "$5,200,000",
     image: "/locations/1031-exchange-pacific-heights-ca.jpg",
   },
   {
     slug: "marina-district-ca",
-    name: "Marina District",
-    price: "$2.8M Average",
+    name: "MARINA DISTRICT", 
+    price: "$2,800,000",
     image: "/locations/1031-exchange-marina-district-ca.jpg",
   },
   {
     slug: "financial-district-ca",
-    name: "Financial District",
-    price: "$1.8M Average",
+    name: "FINANCIAL DISTRICT",
+    price: "$1,800,000",
     image: "/locations/1031-exchange-financial-district-ca.jpg",
   },
   {
     slug: "soma-ca",
     name: "SOMA",
-    price: "$1.5M Average",
+    price: "$1,500,000",
     image: "/locations/1031-exchange-soma-ca.jpg",
   },
   {
     slug: "mission-bay-ca",
-    name: "Mission Bay",
-    price: "$1.6M Average",
+    name: "MISSION BAY",
+    price: "$1,600,000",
     image: "/locations/1031-exchange-mission-bay-ca.jpg",
   },
   {
     slug: "palo-alto-ca",
-    name: "Palo Alto",
-    price: "$3.8M Average",
+    name: "PALO ALTO",
+    price: "$3,800,000",
     image: "/locations/1031-exchange-palo-alto-ca.jpg",
   },
   {
     slug: "oakland-ca",
-    name: "Oakland",
-    price: "$980K Average",
+    name: "OAKLAND",
+    price: "$980,000",
     image: "/locations/1031-exchange-oakland-ca.jpg",
   },
   {
     slug: "berkeley-ca",
-    name: "Berkeley",
-    price: "$1.2M Average",
+    name: "BERKELEY",
+    price: "$1,200,000",
     image: "/locations/1031-exchange-berkeley-ca.jpg",
   },
 ];
@@ -102,24 +92,23 @@ const SF_PREMIUM_AREAS = [
 const FAQS = [
   {
     question: "What are the 45 and 180 day rules?",
-    answer: "Day 0 begins when you close on the relinquished property. You must identify replacement property in writing to your qualified intermediary by midnight of Day 45, and you must close on the selected property by midnight of Day 180.",
+    answer: "Day 0 begins when you close on the relinquished property. You must identify replacement property by Day 45 and close by Day 180.",
   },
   {
     question: "Which properties qualify as like-kind?",
-    answer: "Real property held for investment or productive use in a trade or business qualifies for like-kind treatment when exchanged for other real property with the same intent.",
+    answer: "Real property held for investment or productive use qualifies for like-kind treatment when exchanged for other real property.",
   },
   {
     question: "What is boot and how is it taxed?",
-    answer: "Boot is any cash, debt relief, or non-like-kind value received during the exchange. Boot is taxable as capital gain in the year of the exchange.",
+    answer: "Boot is any cash or non-like-kind value received during the exchange. Boot is taxable as capital gain.",
   },
 ];
 
 export default function Home() {
   const [currentHeroIndex, setCurrentHeroIndex] = useState(0);
-  const [carouselIndex, setCarouselIndex] = useState(0);
   const carouselRef = useRef<HTMLDivElement>(null);
 
-  // Auto-rotate hero images
+  // Auto-rotate hero images like Carolwood
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentHeroIndex((prev) => (prev + 1) % HERO_IMAGES.length);
@@ -130,25 +119,16 @@ export default function Home() {
   // Carousel navigation
   const scrollCarousel = useCallback((direction: "left" | "right") => {
     if (carouselRef.current) {
-      const scrollAmount = 400;
-      const newScroll = direction === "left" 
-        ? carouselRef.current.scrollLeft - scrollAmount
-        : carouselRef.current.scrollLeft + scrollAmount;
-      carouselRef.current.scrollTo({ left: newScroll, behavior: "smooth" });
+      const scrollAmount = 500;
+      carouselRef.current.scrollBy({
+        left: direction === "left" ? -scrollAmount : scrollAmount,
+        behavior: "smooth",
+      });
     }
   }, []);
 
   // JSON-LD structured data
   const jsonLdGraph = useMemo(() => {
-    const faqEntities = FAQS.map((faq) => ({
-      "@type": "Question",
-      name: faq.question,
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: faq.answer,
-      },
-    }));
-
     return JSON.stringify({
       "@context": "https://schema.org",
       "@graph": [
@@ -157,15 +137,6 @@ export default function Home() {
           name: SITE_NAME,
           url: SITE_URL,
           telephone: PHONE_DIGITS,
-          contactPoint: [
-            {
-              "@type": "ContactPoint",
-              telephone: PHONE_DIGITS,
-              contactType: "customer service",
-              areaServed: "US-CA",
-              availableLanguage: ["English"],
-            },
-          ],
           address: {
             "@type": "PostalAddress",
             streetAddress: HAS_STAFFED_OFFICE ? "50 California St" : "",
@@ -176,164 +147,158 @@ export default function Home() {
           },
         },
         {
-          "@type": "WebSite",
-          name: SITE_NAME,
-          url: SITE_URL,
-          inLanguage: "en-US",
-          potentialAction: {
-            "@type": "SearchAction",
-            target: `${SITE_URL}?q={search_term_string}`,
-            "query-input": "required name=search_term_string",
-          },
-        },
-        {
           "@type": "FAQPage",
-          mainEntity: faqEntities,
+          mainEntity: FAQS.map((faq) => ({
+            "@type": "Question",
+            name: faq.question,
+            acceptedAnswer: { "@type": "Answer", text: faq.answer },
+          })),
         },
         {
           "@type": "RealEstateAgent",
           name: SITE_NAME,
           url: SITE_URL,
-          description: "San Francisco 1031 Exchange specialists helping investors defer capital gains through like-kind property exchanges.",
-          areaServed: {
-            "@type": "State",
-            name: "California",
-          },
-          knowsAbout: [
-            "1031 Exchange",
-            "Like-Kind Exchange",
-            "Tax Deferred Exchange",
-            "Qualified Intermediary Coordination",
-            "Investment Property",
-          ],
+          description: "San Francisco 1031 Exchange specialists helping investors defer capital gains.",
+          areaServed: { "@type": "State", name: "California" },
         },
       ],
     });
   }, []);
 
   return (
-    <>
-      {/* Hero Section - Full viewport height with image carousel */}
-      <section className="relative h-screen min-h-[700px] w-full overflow-hidden">
-        {/* Background Image Carousel */}
-        {HERO_IMAGES.map((image, index) => (
+    <div className="bg-[#F7F5F2]">
+      {/* ==================== HERO SECTION ==================== */}
+      {/* Exactly like Carolwood - full screen with rotating images */}
+      <section className="relative h-screen w-full overflow-hidden">
+        {/* Background Images with Ken Burns effect */}
+        {HERO_IMAGES.map((src, index) => (
           <div
-            key={image.src}
-            className={`absolute inset-0 transition-opacity duration-1000 ${
+            key={src}
+            className={`absolute inset-0 transition-opacity duration-[2000ms] ${
               index === currentHeroIndex ? "opacity-100" : "opacity-0"
             }`}
           >
               <Image
-              src={image.src}
-              alt={image.alt}
-                fill
-              className="object-cover animate-kenburns"
+              src={src}
+              alt="San Francisco luxury real estate"
+              fill
+              className="object-cover scale-105"
+              style={{
+                animation: index === currentHeroIndex ? "kenburns 8s ease-out forwards" : "none",
+              }}
               priority={index === 0}
                 sizes="100vw"
               />
-            {/* Gradient overlay */}
-            <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/20 to-black/50" />
             </div>
         ))}
+        
+        {/* Dark overlay */}
+        <div className="absolute inset-0 bg-black/30" />
 
-        {/* Hero Content */}
-        <div className="relative z-10 flex h-full flex-col items-center justify-center px-6 text-center text-white">
-          <div className="max-w-4xl space-y-8 animate-fade-in-up">
-            <h1 className="font-['Playfair_Display',Georgia,serif] text-4xl font-light uppercase tracking-[0.15em] md:text-5xl lg:text-6xl">
-              Premier 1031 Exchange Services
+        {/* Hero Content - Centered text like Carolwood */}
+        <div className="relative z-10 flex h-full flex-col items-center justify-center text-center text-white px-6">
+          <h1 
+            className="text-[32px] md:text-[42px] lg:text-[52px] font-light tracking-[0.3em] uppercase"
+            style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
+          >
+            Access Premium 1031 Properties
               </h1>
-            <p className="mx-auto max-w-2xl text-base font-light leading-relaxed text-white/90 md:text-lg">
-              Exclusive property identification and qualified intermediary coordination for San Francisco Bay Area investors seeking tax-deferred exchanges.
-            </p>
+          <p className="mt-6 max-w-2xl text-[15px] md:text-[17px] font-light tracking-wide leading-relaxed">
+            Exclusive property identification. Contact SF 1031 for private access to investment-grade replacement properties.
+          </p>
               </div>
 
-          {/* Stats Bar */}
-          <div className="absolute bottom-0 left-0 right-0 glass-panel">
-            <div className="mx-auto flex max-w-5xl flex-col items-center justify-center gap-8 px-8 py-8 md:flex-row md:gap-16">
-              {HERO_STATS.map((stat, index) => (
-                <div
-                  key={stat.label}
-                  className={`text-center ${
-                    index < HERO_STATS.length - 1
-                      ? "md:border-r md:border-white/20 md:pr-16"
-                      : ""
-                  }`}
-                >
-                  <div className="font-['Playfair_Display',Georgia,serif] text-3xl font-light text-white md:text-4xl">
+        {/* Stats Bar at Bottom - Like Carolwood's glass panel */}
+        <div className="absolute bottom-0 left-0 right-0 bg-white/10 backdrop-blur-md border-t border-white/20">
+          <div className="max-w-6xl mx-auto">
+            <div className="grid grid-cols-3 divide-x divide-white/20">
+              {HERO_STATS.map((stat) => (
+                <div key={stat.label} className="py-8 px-4 text-center text-white">
+                  <div 
+                    className="text-[28px] md:text-[36px] font-light"
+                    style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
+                  >
                     {stat.value}
-              </div>
-                  <div className="mt-2 text-xs font-medium uppercase tracking-[0.25em] text-white/70">
+                  </div>
+                  <div className="mt-2 text-[10px] md:text-[11px] font-medium tracking-[0.25em] uppercase opacity-80">
                     {stat.label}
-              </div>
-              </div>
-              ))}
-              </div>
-            {/* Scroll indicator */}
-            <div className="flex justify-center pb-6">
-              <button
-                onClick={() => {
-                  document.getElementById("about-section")?.scrollIntoView({ behavior: "smooth" });
-                }}
-                className="text-white/60 transition-colors hover:text-white"
-                aria-label="Scroll down"
-              >
-                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1">
-                  <path d="M6 9l6 6 6-6" />
-                </svg>
-              </button>
+                  </div>
                 </div>
+                  ))}
+                </div>
+              </div>
+          
+          {/* Scroll Down Arrow */}
+          <div className="flex justify-center pb-6">
+            <button
+              onClick={() => document.getElementById("about")?.scrollIntoView({ behavior: "smooth" })}
+              className="text-white/60 hover:text-white transition-colors"
+              aria-label="Scroll down"
+            >
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1">
+                <path d="M6 9l6 6 6-6" />
+              </svg>
+            </button>
               </div>
         </div>
           </section>
 
-      {/* About Section */}
-      <section id="about-section" className="relative min-h-[600px] overflow-hidden">
+      {/* ==================== ABOUT SECTION ==================== */}
+      {/* Like Carolwood's "Carolwood Estates" section with background image */}
+      <section id="about" className="relative min-h-[600px]">
         <Image
           src="/locations/1031-exchange-san-francisco-ca.jpg"
-          alt="San Francisco real estate"
+          alt="San Francisco"
           fill
           className="object-cover"
           sizes="100vw"
         />
-        <div className="absolute inset-0 bg-black/40" />
+        <div className="absolute inset-0 bg-black/50" />
         
-        <div className="relative z-10 flex min-h-[600px] items-center justify-center px-6 py-20">
-          <div className="max-w-3xl space-y-6 text-center text-white">
-            <h2 className="font-['Playfair_Display',Georgia,serif] text-4xl font-light uppercase tracking-[0.1em] md:text-5xl">
+        <div className="relative z-10 flex min-h-[600px] items-center justify-center px-6 py-24">
+          <div className="max-w-3xl text-center text-white">
+            <h2 
+              className="text-[36px] md:text-[48px] font-light tracking-[0.15em] uppercase"
+              style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
+            >
               SF 1031 Exchange
             </h2>
-            <p className="text-base font-light leading-relaxed text-white/90 md:text-lg">
-              SF 1031 Exchange is a boutique property identification and exchange coordination firm based in San Francisco, founded by an organic collaboration of highly successful real estate and tax professionals. Leveraging our stellar network and supported by the most refined resources in the industry, SF 1031 Exchange is driven by an unrelenting focus on discretion, transactional excellence and exceeding client expectation.
-                </p>
+            <p className="mt-8 text-[15px] md:text-[17px] font-light leading-[1.9] tracking-wide">
+              SF 1031 Exchange is a boutique property identification and exchange coordination firm based in San Francisco, founded by an organic collaboration of highly successful real estate and tax professionals. Leveraging its stellar leadership and supported by the most refined resources in the industry, SF 1031 Exchange is driven by an unrelenting focus on discretion, transactional excellence and exceeding client expectation.
+            </p>
               </div>
-              </div>
-      </section>
-
-      {/* Property Types Showcase - Like "Featured In" */}
-      <section className="bg-[#F7F5F2] py-16">
-        <div className="mx-auto max-w-[1400px] px-8">
-          <div className="flex flex-wrap items-center justify-center gap-8 md:gap-12 lg:gap-16">
-            <span className="text-xs font-medium uppercase tracking-[0.3em] text-[#6E6E6E]">
-              Property Types
-            </span>
-            {PROPERTY_TYPES_SHOWCASE.map((type) => (
-              <div
-                key={type.name}
-                className="text-center"
-              >
-                <span className="font-['Playfair_Display',Georgia,serif] text-xl font-light text-[#4A4A4A] md:text-2xl">
-                  {type.name}
-                </span>
-              </div>
-                ))}
-              </div>
-              </div>
+        </div>
           </section>
 
-      {/* San Francisco Areas Carousel - Like "Carolwood Sold" */}
+      {/* ==================== PROPERTY TYPES SECTION ==================== */}
+      {/* Like Carolwood's "Featured In" with publication logos */}
+      <section className="bg-[#F7F5F2] py-12 border-b border-[#E5E0D8]">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="flex flex-wrap items-center justify-center gap-6 md:gap-12">
+            <span className="text-[11px] font-medium tracking-[0.3em] uppercase text-[#888]">
+              Property Types
+            </span>
+            {PROPERTY_TYPES.map((type) => (
+              <span
+                key={type}
+                className="text-[18px] md:text-[22px] font-light text-[#555] tracking-wide"
+                style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
+              >
+                {type}
+                      </span>
+                  ))}
+              </div>
+                </div>
+          </section>
+
+      {/* ==================== SF AREAS CAROUSEL ==================== */}
+      {/* Like Carolwood's "CAROLWOOD SOLD" section */}
       <section className="bg-[#F7F5F2] py-20">
-        <div className="mx-auto max-w-[1400px] px-8">
-          <h2 className="mb-12 text-center font-['Playfair_Display',Georgia,serif] text-3xl font-light uppercase tracking-[0.15em] text-[#2D2D2D] md:text-4xl">
+        <div className="max-w-7xl mx-auto px-6">
+          <h2 
+            className="text-center text-[32px] md:text-[40px] font-light tracking-[0.15em] uppercase text-[#333] mb-12"
+            style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
+          >
             San Francisco Areas
           </h2>
 
@@ -341,60 +306,63 @@ export default function Home() {
           <div className="relative">
             <div
               ref={carouselRef}
-              className="flex gap-6 overflow-x-auto scroll-smooth pb-4 scrollbar-hide"
+              className="flex gap-6 overflow-x-auto pb-4 scrollbar-hide"
               style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
             >
-              {SF_PREMIUM_AREAS.map((area) => (
+              {SF_AREAS.map((area) => (
                     <Link
                   key={area.slug}
                   href={`/service-areas/${area.slug}`}
-                  className="group relative flex-shrink-0"
+                  className="group flex-shrink-0 relative"
                 >
-                  <div className="relative h-[400px] w-[350px] overflow-hidden md:h-[500px] md:w-[450px]">
+                  <div className="relative w-[320px] md:w-[420px] h-[400px] md:h-[520px] overflow-hidden">
                             <Image
                       src={area.image}
                       alt={area.name}
                       fill
                       className="object-cover transition-transform duration-700 group-hover:scale-105"
-                      sizes="(max-width: 768px) 350px, 450px"
+                      sizes="420px"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
                     <div className="absolute bottom-0 left-0 right-0 p-6">
-                      <h3 className="font-['Playfair_Display',Georgia,serif] text-2xl font-light uppercase tracking-wide text-white">
+                      <h3 
+                        className="text-[20px] md:text-[24px] font-light tracking-[0.1em] text-white"
+                        style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
+                      >
                         {area.name}
-                      </h3>
-                      <p className="mt-1 text-sm text-white/80">{area.price}</p>
-                          </div>
-                      </div>
-                    </Link>
-              ))}
+                </h3>
+                      <p className="mt-1 text-[14px] text-white/80">{area.price}</p>
               </div>
+                    </div>
+                  </Link>
+              ))}
+            </div>
 
-            {/* Carousel Controls */}
-            <div className="mt-8 flex items-center justify-between">
-              <div className="flex gap-4">
+            {/* Carousel Controls - Like Carolwood */}
+            <div className="flex items-center justify-between mt-8">
+              <div className="flex gap-3">
                 <button
                   onClick={() => scrollCarousel("left")}
-                  className="flex h-10 w-10 items-center justify-center border border-[#5A2828] text-[#5A2828] transition-colors hover:bg-[#5A2828] hover:text-white"
+                  className="w-10 h-10 flex items-center justify-center border border-[#5A2828] text-[#5A2828] hover:bg-[#5A2828] hover:text-white transition-colors"
                   aria-label="Previous"
                 >
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
                     <path d="M15 18l-6-6 6-6" />
                       </svg>
                 </button>
                 <button
                   onClick={() => scrollCarousel("right")}
-                  className="flex h-10 w-10 items-center justify-center border border-[#5A2828] text-[#5A2828] transition-colors hover:bg-[#5A2828] hover:text-white"
+                  className="w-10 h-10 flex items-center justify-center border border-[#5A2828] text-[#5A2828] hover:bg-[#5A2828] hover:text-white transition-colors"
                   aria-label="Next"
                 >
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
                     <path d="M9 18l6-6-6-6" />
                       </svg>
                 </button>
                     </div>
                 <Link
                 href="/service-areas"
-                className="border border-[#5A2828] px-8 py-3 text-xs font-medium uppercase tracking-[0.25em] text-[#5A2828] transition-colors hover:bg-[#5A2828] hover:text-white"
+                className="px-8 py-3 border border-[#5A2828] text-[11px] font-medium tracking-[0.25em] uppercase text-[#5A2828] hover:bg-[#5A2828] hover:text-white transition-colors"
                 >
                 See All
                 </Link>
@@ -403,179 +371,37 @@ export default function Home() {
               </div>
       </section>
 
-      {/* 1031 Exchange Partnership Section - Like Forbes Section */}
-      <section className="relative min-h-[500px] overflow-hidden">
+      {/* ==================== 1031 EXCHANGE SECTION ==================== */}
+      {/* Like Carolwood's Forbes Global Properties section */}
+      <section className="relative min-h-[500px]">
                           <Image
           src="/locations/1031-exchange-palo-alto-ca.jpg"
-          alt="Bay Area luxury property"
+          alt="Bay Area property"
                             fill
                             className="object-cover"
           sizes="100vw"
         />
-        <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" />
+        <div className="absolute inset-0 bg-black/60 backdrop-blur-[2px]" />
         
         <div className="relative z-10 flex min-h-[500px] items-center justify-center px-6 py-20">
-          <div className="glass-panel max-w-2xl space-y-6 p-12 text-center">
-            <div className="font-['Playfair_Display',Georgia,serif] text-3xl font-light text-white">
+          <div className="max-w-2xl text-center bg-white/10 backdrop-blur-md border border-white/20 p-12">
+            <div 
+              className="text-[28px] md:text-[36px] font-light text-white"
+              style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
+            >
               IRS Section 1031
                         </div>
-            <p className="text-sm font-light leading-relaxed text-white/90">
+            <p className="mt-6 text-[14px] md:text-[15px] font-light leading-[1.9] text-white/90">
               Section 1031 of the Internal Revenue Code provides investors the opportunity to defer capital gains taxes when exchanging like-kind investment properties. SF 1031 Exchange is your exclusive partner in the San Francisco Bay Area, connecting you with our network of qualified intermediaries, tax advisors, and replacement properties across all 50 states.
             </p>
             <Link
               href="/services"
-              className="inline-block bg-[#5A2828] px-10 py-4 text-xs font-medium uppercase tracking-[0.25em] text-white transition-colors hover:bg-[#4A1F1F]"
+              className="inline-block mt-8 px-10 py-4 bg-[#5A2828] text-[11px] font-medium tracking-[0.25em] uppercase text-white hover:bg-[#4A1F1F] transition-colors"
             >
               Learn More
             </Link>
-                  </div>
-                </div>
-          </section>
-
-      {/* Services Overview */}
-      <section className="bg-[#F7F5F2] py-20">
-        <div className="mx-auto max-w-[1400px] px-8">
-          <h2 className="mb-12 text-center font-['Playfair_Display',Georgia,serif] text-3xl font-light uppercase tracking-[0.15em] text-[#2D2D2D] md:text-4xl">
-            Our Services
-          </h2>
-          
-          <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-            {[
-              {
-                title: "Property Identification",
-                description: "We identify replacement properties nationwide that meet your investment criteria and IRS like-kind requirements within the critical 45-day window.",
-                href: "/services",
-              },
-              {
-                title: "QI Coordination",
-                description: "Seamless coordination between your Qualified Intermediary, escrow, title, lenders, and CPA to keep your exchange compliant.",
-                href: "/services",
-              },
-              {
-                title: "Exchange Structuring",
-                description: "Expert guidance on forward, reverse, and improvement exchanges tailored to your specific investment goals.",
-                href: "/services",
-              },
-              {
-                title: "Due Diligence Support",
-                description: "Comprehensive property analysis including financials, environmental reviews, and market assessments.",
-                href: "/services",
-              },
-              {
-                title: "Timeline Management",
-                description: "Rigorous tracking of the 45-day identification and 180-day closing deadlines to ensure IRS compliance.",
-                href: "/services",
-              },
-              {
-                title: "Tax Advisory Network",
-                description: "Access to our network of CPAs and tax attorneys specializing in real estate and 1031 exchanges.",
-                href: "/services",
-              },
-            ].map((service) => (
-              <Link
-                key={service.title}
-                href={service.href}
-                className="group border border-[#E5E0D8] bg-white p-8 transition-all duration-300 hover:border-[#5A2828] hover:shadow-lg"
-              >
-                <h3 className="mb-4 font-['Playfair_Display',Georgia,serif] text-xl font-light text-[#2D2D2D] group-hover:text-[#5A2828]">
-                  {service.title}
-                </h3>
-                <p className="text-sm leading-relaxed text-[#6E6E6E]">
-                  {service.description}
-                </p>
-              </Link>
-            ))}
-              </div>
-
-          <div className="mt-12 text-center">
-            <Link
-              href="/services"
-              className="inline-block border border-[#5A2828] px-10 py-4 text-xs font-medium uppercase tracking-[0.25em] text-[#5A2828] transition-colors hover:bg-[#5A2828] hover:text-white"
-            >
-              View All Services
-            </Link>
-                        </div>
-                    </div>
-          </section>
-
-      {/* Tools Section */}
-      <section className="bg-white py-20">
-        <div className="mx-auto max-w-[1400px] px-8">
-          <h2 className="mb-4 text-center font-['Playfair_Display',Georgia,serif] text-3xl font-light uppercase tracking-[0.15em] text-[#2D2D2D] md:text-4xl">
-            Exchange Tools
-          </h2>
-          <p className="mx-auto mb-12 max-w-2xl text-center text-sm text-[#6E6E6E]">
-            Interactive calculators to help you plan and execute your 1031 exchange with confidence.
-          </p>
-          
-          <div className="grid gap-6 md:grid-cols-3">
-            {[
-              {
-                title: "Boot Calculator",
-                description: "Calculate boot and estimate tax implications for your 1031 exchange.",
-                href: "/tools/boot-calculator",
-              },
-              {
-                title: "Exchange Cost Estimator",
-                description: "Calculate QI fees, escrow costs, title insurance, and recording fees.",
-                href: "/tools/exchange-cost-estimator",
-              },
-              {
-                title: "Identification Rules Checker",
-                description: "Validate your property identification against IRS rules.",
-                href: "/tools/identification-rules-checker",
-              },
-            ].map((tool) => (
-              <Link
-                key={tool.title}
-                href={tool.href}
-                className="group bg-[#5A2828] p-8 text-white transition-all duration-300 hover:bg-[#4A1F1F]"
-              >
-                <h3 className="mb-4 font-['Playfair_Display',Georgia,serif] text-xl font-light">
-                  {tool.title}
-                </h3>
-                <p className="text-sm leading-relaxed text-white/80">
-                  {tool.description}
-                </p>
-              </Link>
-            ))}
-              </div>
-
-          <div className="mt-12 text-center">
-            <Link
-              href="/tools"
-              className="inline-block border border-[#5A2828] px-10 py-4 text-xs font-medium uppercase tracking-[0.25em] text-[#5A2828] transition-colors hover:bg-[#5A2828] hover:text-white"
-            >
-              View All Tools
-            </Link>
                 </div>
                 </div>
-          </section>
-
-      {/* CTA Section */}
-      <section className="bg-[#5A2828] py-20">
-        <div className="mx-auto max-w-3xl px-8 text-center text-white">
-          <h2 className="font-['Playfair_Display',Georgia,serif] text-3xl font-light uppercase tracking-[0.1em] md:text-4xl">
-            Ready to Begin Your Exchange?
-          </h2>
-          <p className="mx-auto mt-6 max-w-xl text-base font-light leading-relaxed text-white/80">
-            Our San Francisco team specializes in 1031 exchanges for discerning investors. Contact us for a confidential consultation.
-          </p>
-          <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
-            <Link
-              href="/contact"
-              className="inline-block border border-white px-10 py-4 text-xs font-medium uppercase tracking-[0.25em] text-white transition-colors hover:bg-white hover:text-[#5A2828]"
-            >
-              Contact Us
-            </Link>
-            <a
-              href={`tel:${PHONE_DIGITS}`}
-              className="inline-block bg-white px-10 py-4 text-xs font-medium uppercase tracking-[0.25em] text-[#5A2828] transition-colors hover:bg-[#F7F5F2]"
-            >
-              Call (415) 917-2994
-                </a>
-              </div>
-        </div>
           </section>
 
       {/* JSON-LD */}
@@ -586,6 +412,6 @@ export default function Home() {
         >
           {jsonLdGraph}
         </Script>
-    </>
+    </div>
   );
 }
