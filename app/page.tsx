@@ -182,11 +182,11 @@ export default function Home() {
                 </div>
                 <div className="mt-1 text-[8px] md:text-[9px] font-medium tracking-[0.2em] uppercase opacity-80">
                   {stat.label}
-                </div>
+              </div>
               </div>
                 ))}
               </div>
-        </div>
+              </div>
         
         {/* Scroll Down Arrow */}
         <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-10">
@@ -202,23 +202,32 @@ export default function Home() {
               </div>
           </section>
 
-      {/* ==================== ABOUT SECTION - Parallax Effect ==================== */}
+      {/* ==================== ABOUT SECTION - Matching Carolwood ==================== */}
       <section 
         id="about" 
-        className="relative min-h-[700px] bg-fixed bg-cover bg-center"
-        style={{ backgroundImage: "url('/locations/1031-exchange-pacific-heights-ca.jpg')" }}
+        className="relative h-[600px] md:h-[700px] bg-fixed bg-cover bg-center"
+        style={{ backgroundImage: "url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=2070')" }}
       >
-        <div className="absolute inset-0 bg-black/40" />
+        <div className="absolute inset-0 bg-black/25" />
         
-        <div className="relative z-10 flex min-h-[700px] items-center justify-center px-6 py-24">
+        <div className="relative z-10 flex h-full items-center justify-center px-6">
           <div className="max-w-3xl text-center text-white">
-            <h2 className="font-[family-name:var(--font-playfair)] text-[32px] md:text-[42px] lg:text-[52px] font-normal tracking-[0.08em] uppercase">
-              SF 1031 Exchange
-            </h2>
-            <p className="mt-10 text-[15px] md:text-[17px] font-light leading-[2] tracking-wide">
+            {/* Logo matching footer style */}
+            <div className="flex flex-col items-center mb-8">
+              <div className="flex items-baseline justify-center">
+                <span className="font-[family-name:var(--font-playfair)] text-[42px] md:text-[56px] font-light leading-none text-white">
+                  SF
+                      </span>
+                <span className="text-[42px] md:text-[56px] text-white font-light">.</span>
+              </div>
+              <span className="text-[9px] md:text-[10px] font-medium tracking-[0.4em] uppercase text-white/60 -mt-1">
+                1031
+              </span>
+            </div>
+            <p className="text-[12px] md:text-[13px] font-light leading-[1.85] tracking-wide max-w-2xl mx-auto text-white/90">
               SF 1031 Exchange is a boutique property identification and exchange coordination firm based in San Francisco, founded by an organic collaboration of highly successful real estate and tax professionals. Leveraging its stellar leadership and supported by the most refined resources in the industry, SF 1031 Exchange is driven by an unrelenting focus on discretion, transactional excellence and exceeding client expectation.
-                        </p>
-                      </div>
+            </p>
+                </div>
               </div>
           </section>
 
@@ -246,8 +255,8 @@ export default function Home() {
                 >
                   {type}
                 </span>
-              ))}
-                    </div>
+                ))}
+              </div>
               </div>
               </div>
           </section>
@@ -261,13 +270,13 @@ export default function Home() {
 
           <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4">
             {SF_AREAS.map((area) => (
-              <Link
+                    <Link
                 key={area.slug}
                 href={`/service-areas/${area.slug}`}
                 className="group relative block"
               >
                 <div className="relative aspect-[4/3] overflow-hidden">
-                          <Image
+                            <Image
                     src={area.image}
                     alt={area.name}
                     fill
@@ -278,32 +287,32 @@ export default function Home() {
                   <div className="absolute bottom-0 left-0 right-0 p-4 md:p-5">
                     <h3 className="font-[family-name:var(--font-playfair)] text-[14px] md:text-[18px] font-normal tracking-[0.08em] text-white">
                       {area.name}
-                    </h3>
+                </h3>
                     <p className="mt-1 text-[11px] md:text-[13px] text-white/80">{area.price}</p>
-                        </div>
-                </div>
-              </Link>
+              </div>
+                    </div>
+                  </Link>
             ))}
-                  </div>
+                    </div>
 
           <div className="mt-10 text-center">
-            <Link
+                <Link
                     href="/service-areas"
               className="inline-block px-10 py-3 border border-[#5A2828] text-[10px] font-medium tracking-[0.25em] uppercase text-[#5A2828] hover:bg-[#5A2828] hover:text-white transition-colors"
-                  >
+                >
               See All
-            </Link>
-                </div>
+                </Link>
+              </div>
               </div>
           </section>
 
       {/* ==================== 1031 EXCHANGE SECTION ==================== */}
       <section className="relative min-h-[450px]">
-        <Image
+                          <Image
           src="/locations/1031-exchange-palo-alto-ca.jpg"
           alt="Bay Area property"
-          fill
-          className="object-cover"
+                            fill
+                            className="object-cover"
           sizes="100vw"
         />
         <div className="absolute inset-0 bg-black/60" />
@@ -312,7 +321,7 @@ export default function Home() {
           <div className="max-w-xl text-center bg-white/10 backdrop-blur-md border border-white/20 p-10 md:p-12">
             <div className="font-[family-name:var(--font-playfair)] text-[24px] md:text-[32px] font-normal text-white">
               IRS Section 1031
-              </div>
+                        </div>
             <p className="mt-5 text-[13px] md:text-[14px] font-light leading-[1.8] text-white/90">
               Section 1031 of the Internal Revenue Code provides investors the opportunity to defer capital gains taxes when exchanging like-kind investment properties. SF 1031 Exchange is your exclusive partner in the San Francisco Bay Area.
             </p>
@@ -322,8 +331,8 @@ export default function Home() {
             >
               Learn More
             </Link>
-                    </div>
-              </div>
+                  </div>
+                </div>
           </section>
 
       {/* ==================== SERVICES SECTION - Mirror Locations Aesthetic ==================== */}
@@ -355,12 +364,12 @@ export default function Home() {
                   <div className="absolute bottom-0 left-0 right-0 p-4">
                     <h3 className="font-[family-name:var(--font-playfair)] text-[13px] md:text-[16px] font-normal tracking-[0.05em] text-white leading-tight">
                       {service.title}
-                    </h3>
-                  </div>
-                </div>
+                </h3>
+              </div>
+                        </div>
               </Link>
             ))}
-                </div>
+                    </div>
 
           <div className="mt-10 text-center">
             <Link
@@ -370,8 +379,34 @@ export default function Home() {
               View All Services
             </Link>
               </div>
+                </div>
+          </section>
+
+      {/* ==================== CONTACT SECTION ==================== */}
+      <section className="bg-[#5A2828] py-16 md:py-20">
+        <div className="max-w-4xl mx-auto px-6 text-center">
+          <h2 className="font-[family-name:var(--font-playfair)] text-[28px] md:text-[36px] font-normal tracking-[0.1em] uppercase text-white mb-6">
+            Start Your Exchange
+          </h2>
+          <p className="text-[14px] text-white/70 mb-10 max-w-2xl mx-auto leading-relaxed">
+            Ready to defer your capital gains? Contact our team to discuss your 1031 exchange property identification needs in San Francisco.
+          </p>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <Link
+              href="/contact"
+              className="px-10 py-3 bg-white text-[10px] font-medium tracking-[0.25em] uppercase text-[#5A2828] hover:bg-white/90 transition-colors"
+            >
+              Contact Us
+            </Link>
+            <a
+              href="tel:+14159172994"
+              className="px-10 py-3 border border-white/60 text-[10px] font-medium tracking-[0.25em] uppercase text-white hover:bg-white/10 transition-colors"
+            >
+              Call (415) 917-2994
+                </a>
+              </div>
         </div>
-      </section>
+          </section>
 
       {/* JSON-LD */}
         <Script
