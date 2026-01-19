@@ -1,57 +1,22 @@
-export type Slug = string;
-
-export interface ServiceItem {
-  slug: Slug;
+export type LocationItem = {
+  slug: string;
   name: string;
+  parent?: string;
+  route: string;
+  type: "city" | "district" | "neighborhood" | "remote";
+  description?: string;
+  medianPrice?: string;
+};
+
+export type ServiceItem = {
+  slug: string;
+  name: string;
+  route: string;
   short: string;
-  route: Slug;
-  category?: string;
-}
+};
 
-export interface LocationItem {
-  slug: Slug;
+export type PropertyTypeItem = {
+  slug: string;
   name: string;
-  parent?: Slug;
-  route: Slug;
-  type: "city" | "neighborhood" | "suburb" | "district" | "remote";
-  heroImage?: string;
-}
-
-export interface PropertyTypeItem {
-  slug: Slug;
-  name: string;
-  route: Slug;
-}
-
-export interface InventoryCategory {
-  slug: Slug;
-  name: string;
-  route: Slug;
-  note?: string;
-}
-
-export interface ResourceLink {
-  key: string;
-  label: string;
-  href: string;
-}
-
-export interface PageLayoutVariant {
-  key: string;
-  label: string;
-  description: string;
-  sections: string[];
-  features?: {
-    toc?: boolean;
-    stickyCta?: boolean;
-    sidebar?: boolean;
-    heroStyle?: "image" | "gradient" | "map" | "abstract";
-    schema?: string[];
-  };
-}
-
-export interface LayoutAssignments {
-  services: Record<string, string>;
-  locations: Record<string, string>;
-}
-
+  route: string;
+};

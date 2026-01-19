@@ -1,32 +1,33 @@
 "use client";
 
 import Link from "next/link";
-import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
-import { servicesData } from "@/data";
-import { locationsData } from "@/data";
-import { SITE_NAME, PHONE, PHONE_DIGITS } from "@/lib/config";
+import { useEffect, useState, useRef } from "react";
+import { SFLogoMinimal } from "@/components/SFLogo";
 
 export default function Header() {
   const pathname = usePathname();
-  const [servicesOpen, setServicesOpen] = useState(false);
-  const [locationsOpen, setLocationsOpen] = useState(false);
-  const [toolsOpen, setToolsOpen] = useState(false);
+  // Auto-detect if we're on homepage for transparent header
+  const variant = pathname === "/" ? "transparent" : "solid";
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const servicesRef = useRef<HTMLDivElement>(null);
-  const locationsRef = useRef<HTMLDivElement>(null);
-  const toolsRef = useRef<HTMLDivElement>(null);
-  const servicesTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-  const locationsTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-  const toolsTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const [scrolled, setScrolled] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
+  const searchInputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 50);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
-        setServicesOpen(false);
-        setLocationsOpen(false);
         setMobileMenuOpen(false);
+        setSearchOpen(false);
       }
     };
     window.addEventListener("keydown", handleEscape);
@@ -34,317 +35,227 @@ export default function Header() {
   }, []);
 
   useEffect(() => {
-    setServicesOpen(false);
-    setLocationsOpen(false);
-    setToolsOpen(false);
     setMobileMenuOpen(false);
+    setSearchOpen(false);
   }, [pathname]);
 
-  const handleServicesMouseEnter = () => {
-    if (servicesTimeoutRef.current) {
-      clearTimeout(servicesTimeoutRef.current);
+  useEffect(() => {
+    if (searchOpen && searchInputRef.current) {
+      searchInputRef.current.focus();
     }
-    setServicesOpen(true);
-  };
+  }, [searchOpen]);
 
-  const handleServicesMouseLeave = () => {
-    servicesTimeoutRef.current = setTimeout(() => {
-      setServicesOpen(false);
-    }, 300);
-  };
-
-  const handleLocationsMouseEnter = () => {
-    if (locationsTimeoutRef.current) {
-      clearTimeout(locationsTimeoutRef.current);
-    }
-    setLocationsOpen(true);
-  };
-
-  const handleLocationsMouseLeave = () => {
-    locationsTimeoutRef.current = setTimeout(() => {
-      setLocationsOpen(false);
-    }, 300);
-  };
-
-  const handleToolsMouseEnter = () => {
-    if (toolsTimeoutRef.current) {
-      clearTimeout(toolsTimeoutRef.current);
-    }
-    setToolsOpen(true);
-  };
-
-  const handleToolsMouseLeave = () => {
-    toolsTimeoutRef.current = setTimeout(() => {
-      setToolsOpen(false);
-    }, 300);
-  };
+  const isTransparent = variant === "transparent" && !scrolled && !mobileMenuOpen;
+  const logoVariant = isTransparent ? "light" : "dark";
+  const textColor = isTransparent ? "text-white" : "text-[#2D2D2D]";
+  const borderColor = isTransparent ? "border-white/30" : "border-[#5A2828]";
+  const bgClass = isTransparent 
+    ? "bg-transparent" 
+    : "bg-[#F7F5F2]/95 backdrop-blur-md border-b border-[#E5E0D8]";
 
   return (
-    <header className="sticky top-0 z-50 border-b border-[#E5E7EB] bg-white/95 backdrop-blur-sm">
+    <header
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${bgClass}`}
+    >
+      {/* Top red line accent like Carolwood */}
+      <div className="h-[3px] bg-[#5A2828]" />
+      
       <nav
-        className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4 md:px-10"
+        className="mx-auto flex max-w-[1400px] items-center justify-between px-8 py-5 lg:px-12"
         aria-label="Main navigation"
       >
+        {/* Logo */}
         <Link
           href="/"
-          className="flex items-center transition hover:opacity-80"
+          className="flex items-center transition-opacity hover:opacity-80"
         >
-          <Image
-            src="/1031-exchange-san-francisco-logo.png"
-            alt={SITE_NAME}
-            width={200}
-            height={60}
-            className="h-12 w-auto object-contain"
-            priority
-            unoptimized
-          />
+          <SFLogoMinimal variant={logoVariant} />
         </Link>
 
-        <div className="hidden items-center gap-8 md:flex">
-          <div
-            ref={servicesRef}
-            className="relative"
-            onMouseEnter={handleServicesMouseEnter}
-            onMouseLeave={handleServicesMouseLeave}
-          >
-            <button
-              type="button"
-              className="flex items-center gap-1 text-sm font-medium text-[#0C1E2E] transition hover:text-[#0C1E2E]/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#F5B32F]"
-              aria-expanded={servicesOpen}
-              aria-haspopup="true"
-              onClick={() => setServicesOpen(!servicesOpen)}
-            >
-              Services
-              <span className="text-xs" aria-hidden="true">
-                {servicesOpen ? "▲" : "▼"}
-              </span>
-            </button>
-            {servicesOpen && (
-              <div className="absolute left-0 top-full mt-2 w-80 rounded-2xl border border-[#E5E7EB] bg-white shadow-lg">
-                <div className="max-h-96 overflow-y-auto p-4">
-                  <div className="space-y-1">
-                    {servicesData.slice(0, 7).map((service) => (
-                      <Link
-                        key={service.slug}
-                        href={`/services/${service.slug}`}
-                        className="block rounded-lg px-3 py-2 text-sm text-[#1E1E1E] transition hover:bg-[#FAFAFA] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-[#F5B32F]"
-                      >
-                        {service.name}
-                      </Link>
-                    ))}
-                  </div>
-                  <Link
-                    href="/services"
-                    className="mt-2 block rounded-lg px-3 py-2 text-sm font-semibold text-[#F5B32F] transition hover:bg-[#FAFAFA] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-[#F5B32F]"
-                  >
-                    View All {servicesData.length} Services →
-                  </Link>
-                </div>
-              </div>
-            )}
-          </div>
-
-          <div
-            ref={locationsRef}
-            className="relative"
-            onMouseEnter={handleLocationsMouseEnter}
-            onMouseLeave={handleLocationsMouseLeave}
-          >
-            <button
-              type="button"
-              className="flex items-center gap-1 text-sm font-medium text-[#0C1E2E] transition hover:text-[#0C1E2E]/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#F5B32F]"
-              aria-expanded={locationsOpen}
-              aria-haspopup="true"
-              onClick={() => setLocationsOpen(!locationsOpen)}
-            >
-              Locations
-              <span className="text-xs" aria-hidden="true">
-                {locationsOpen ? "▲" : "▼"}
-              </span>
-            </button>
-            {locationsOpen && (
-              <div className="absolute left-0 top-full mt-2 w-64 rounded-2xl border border-[#E5E7EB] bg-white shadow-lg">
-                <div className="p-4">
-                  <div className="space-y-1">
-                    <Link
-                      href="/service-areas/san-francisco-ca"
-                      className="block rounded-lg px-3 py-2 text-sm font-semibold text-[#0C1E2E] transition hover:bg-[#FAFAFA] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-[#F5B32F]"
-                    >
-                      San Francisco
-                    </Link>
-                    {locationsData
-                      .filter((l) => l.slug !== "san-francisco-ca" && l.type === "city")
-                      .slice(0, 6)
-                      .map((location) => (
-                        <Link
-                          key={location.slug}
-                          href={`/service-areas/${location.slug}`}
-                          className="block rounded-lg px-3 py-2 text-sm text-[#1E1E1E] transition hover:bg-[#FAFAFA] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-[#F5B32F]"
-                        >
-                          {location.name}
-                        </Link>
-                      ))}
-                  </div>
-                  <Link
-                    href="/service-areas"
-                    className="mt-2 block rounded-lg px-3 py-2 text-sm font-semibold text-[#F5B32F] transition hover:bg-[#FAFAFA] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-[#F5B32F]"
-                  >
-                    View All {locationsData.length} Locations →
-                  </Link>
-                </div>
-              </div>
-            )}
-          </div>
-
-          <div
-            ref={toolsRef}
-            className="relative"
-            onMouseEnter={handleToolsMouseEnter}
-            onMouseLeave={handleToolsMouseLeave}
-          >
-            <button
-              type="button"
-              className="flex items-center gap-1 text-sm font-medium text-[#0C1E2E] transition hover:text-[#0C1E2E]/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#F5B32F]"
-              aria-expanded={toolsOpen}
-              aria-haspopup="true"
-              onClick={() => setToolsOpen(!toolsOpen)}
-            >
-              Tools
-              <span className="text-xs" aria-hidden="true">
-                {toolsOpen ? "▲" : "▼"}
-              </span>
-            </button>
-            {toolsOpen && (
-              <div className="absolute left-0 top-full mt-2 w-64 rounded-2xl border border-[#E5E7EB] bg-white shadow-lg">
-                <div className="p-4">
-                  <div className="space-y-1">
-                    <Link
-                      href="/tools/boot-calculator"
-                      className="block rounded-lg px-3 py-2 text-sm text-[#1E1E1E] transition hover:bg-[#FAFAFA] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-[#F5B32F]"
-                    >
-                      Boot Calculator
-                    </Link>
-                    <Link
-                      href="/tools/exchange-cost-estimator"
-                      className="block rounded-lg px-3 py-2 text-sm text-[#1E1E1E] transition hover:bg-[#FAFAFA] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-[#F5B32F]"
-                    >
-                      Exchange Cost Estimator
-                    </Link>
-                    <Link
-                      href="/tools/identification-rules-checker"
-                      className="block rounded-lg px-3 py-2 text-sm text-[#1E1E1E] transition hover:bg-[#FAFAFA] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-[#F5B32F]"
-                    >
-                      Identification Rules Checker
-                    </Link>
-                  </div>
-                  <Link
-                    href="/tools"
-                    className="mt-2 block rounded-lg px-3 py-2 text-sm font-semibold text-[#F5B32F] transition hover:bg-[#FAFAFA] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-[#F5B32F]"
-                  >
-                    View All Tools →
-                  </Link>
-                </div>
-              </div>
-            )}
-          </div>
-
-          <Link
-            href="/property-types"
-            className="text-sm font-medium text-[#0C1E2E] transition hover:text-[#0C1E2E]/80"
-          >
-            Property Types
-          </Link>
-
-          <Link
-            href="/blog"
-            className="text-sm font-medium text-[#0C1E2E] transition hover:text-[#0C1E2E]/80"
-          >
-            Blog
-          </Link>
-
-          <Link
-            href="/about"
-            className="text-sm font-medium text-[#0C1E2E] transition hover:text-[#0C1E2E]/80"
-          >
-            About
-          </Link>
-
-          <Link
-            href="/contact"
-            className="rounded-full bg-[#0C1E2E] px-6 py-2 text-sm font-semibold uppercase tracking-[0.3em] text-white transition hover:bg-[#12304b] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#F5B32F]"
-          >
-            Contact
-          </Link>
-        </div>
-
-        <div className="flex items-center gap-4 md:hidden">
-          <a
-            href={`tel:${PHONE_DIGITS}`}
-            className="rounded-full bg-[#0C1E2E] px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-white"
-          >
-            Call
-          </a>
+        {/* Desktop Navigation */}
+        <div className="hidden items-center gap-6 lg:flex">
+          {/* Search Icon */}
           <button
             type="button"
-            className="text-[#0C1E2E]"
+            onClick={() => setSearchOpen(!searchOpen)}
+            className={`p-2 transition-colors ${textColor} hover:text-[#C4A87C]`}
+            aria-label="Search"
+          >
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <circle cx="11" cy="11" r="8" />
+              <line x1="21" y1="21" x2="16.65" y2="16.65" />
+            </svg>
+          </button>
+
+          {/* Contact Us Button */}
+          <Link
+            href="/contact"
+            className={`px-6 py-3 text-xs font-medium uppercase tracking-[0.25em] border transition-all duration-300 ${borderColor} ${textColor} hover:bg-[#5A2828] hover:text-white hover:border-[#5A2828]`}
+          >
+            Contact Us
+          </Link>
+
+          {/* Hamburger Menu */}
+          <button
+            type="button"
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            className={`p-2 transition-colors ${textColor}`}
             aria-expanded={mobileMenuOpen}
             aria-label="Toggle menu"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           >
-            <span className="text-2xl font-bold">{mobileMenuOpen ? "×" : "≡"}</span>
+            <svg
+              width="28"
+              height="20"
+              viewBox="0 0 28 20"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.5"
+            >
+              <line x1="0" y1="2" x2="28" y2="2" />
+              <line x1="0" y1="10" x2="28" y2="10" />
+              <line x1="0" y1="18" x2="28" y2="18" />
+            </svg>
+          </button>
+        </div>
+
+        {/* Mobile Navigation */}
+        <div className="flex items-center gap-4 lg:hidden">
+          <button
+            type="button"
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            className={`p-2 transition-colors ${textColor}`}
+            aria-expanded={mobileMenuOpen}
+            aria-label="Toggle menu"
+          >
+            <svg
+              width="24"
+              height="18"
+              viewBox="0 0 24 18"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.5"
+            >
+              {mobileMenuOpen ? (
+                <>
+                  <line x1="2" y1="2" x2="22" y2="16" />
+                  <line x1="22" y1="2" x2="2" y2="16" />
+                </>
+              ) : (
+                <>
+                  <line x1="0" y1="2" x2="24" y2="2" />
+                  <line x1="0" y1="9" x2="24" y2="9" />
+                  <line x1="0" y1="16" x2="24" y2="16" />
+                </>
+              )}
+            </svg>
           </button>
         </div>
       </nav>
 
-      {mobileMenuOpen && (
-        <div className="border-t border-[#E5E7EB] bg-white md:hidden">
-          <div className="space-y-1 px-6 py-4">
-            <Link
-              href="/services"
-              className="block rounded-lg px-4 py-3 text-sm font-medium text-[#0C1E2E] transition hover:bg-[#FAFAFA]"
-            >
-              Services
-            </Link>
-            <Link
-              href="/locations"
-              className="block rounded-lg px-4 py-3 text-sm font-medium text-[#0C1E2E] transition hover:bg-[#FAFAFA]"
-            >
-              Locations
-            </Link>
-            <Link
-              href="/tools"
-              className="block rounded-lg px-4 py-3 text-sm font-medium text-[#0C1E2E] transition hover:bg-[#FAFAFA]"
-            >
-              Tools
-            </Link>
-            <Link
-              href="/property-types"
-              className="block rounded-lg px-4 py-3 text-sm font-medium text-[#0C1E2E] transition hover:bg-[#FAFAFA]"
-            >
-              Property Types
-            </Link>
-            <Link
-              href="/blog"
-              className="block rounded-lg px-4 py-3 text-sm font-medium text-[#0C1E2E] transition hover:bg-[#FAFAFA]"
-            >
-              Blog
-            </Link>
-            <Link
-              href="/about"
-              className="block rounded-lg px-4 py-3 text-sm font-medium text-[#0C1E2E] transition hover:bg-[#FAFAFA]"
-            >
-              About
-            </Link>
-            <Link
-              href="/contact"
-              className="mt-4 block rounded-full bg-[#0C1E2E] px-6 py-3 text-center text-sm font-semibold uppercase tracking-[0.3em] text-white"
-            >
-              Contact
-            </Link>
+      {/* Search Overlay */}
+      {searchOpen && (
+        <div className="absolute top-full left-0 right-0 bg-white border-b border-[#E5E0D8] p-6">
+          <div className="mx-auto max-w-2xl">
+            <form action="/service-areas" method="get">
+              <input
+                ref={searchInputRef}
+                type="text"
+                name="q"
+                placeholder="Search properties, areas, services..."
+                className="w-full border-b border-[#2D2D2D] bg-transparent py-4 text-lg font-light text-[#2D2D2D] placeholder:text-[#6E6E6E] focus:border-[#5A2828] focus:outline-none"
+              />
+            </form>
           </div>
+        </div>
+      )}
+
+      {/* Full-screen Menu Overlay */}
+      {mobileMenuOpen && (
+        <div className="fixed inset-0 top-0 z-40 bg-[#F7F5F2]">
+          {/* Menu Header */}
+          <div className="h-[3px] bg-[#5A2828]" />
+          <div className="flex items-center justify-between px-8 py-5 lg:px-12">
+            <Link
+              href="/"
+              onClick={() => setMobileMenuOpen(false)}
+              className="flex items-center"
+            >
+              <SFLogoMinimal variant="dark" />
+            </Link>
+            <button
+              type="button"
+              onClick={() => setMobileMenuOpen(false)}
+              className="p-2 text-[#2D2D2D]"
+              aria-label="Close menu"
+            >
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.5"
+              >
+                <line x1="4" y1="4" x2="20" y2="20" />
+                <line x1="20" y1="4" x2="4" y2="20" />
+              </svg>
+            </button>
+          </div>
+
+          {/* Menu Links */}
+          <nav className="flex flex-col items-center justify-center px-8 py-12 lg:py-20">
+            <ul className="space-y-6 text-center lg:space-y-8">
+              {[
+                { href: "/service-areas", label: "San Francisco Areas" },
+                { href: "/property-types", label: "Property Types" },
+                { href: "/services", label: "1031 Services" },
+                { href: "/tools", label: "Exchange Tools" },
+                { href: "/about", label: "About" },
+                { href: "/blog", label: "Blog" },
+                { href: "/contact", label: "Contact" },
+              ].map((item) => (
+                <li key={item.href}>
+                  <Link
+                    href={item.href}
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="block font-['Playfair_Display',Georgia,serif] text-3xl text-[#2D2D2D] transition-colors hover:text-[#5A2828] lg:text-4xl"
+                  >
+                    {item.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+
+            {/* Contact Info */}
+            <div className="mt-12 space-y-4 text-center lg:mt-16">
+              <p className="text-xs font-medium uppercase tracking-[0.3em] text-[#6E6E6E]">
+                Get in Touch
+              </p>
+              <a
+                href="tel:+14159172994"
+                className="block font-['Playfair_Display',Georgia,serif] text-xl text-[#5A2828] hover:text-[#C4A87C]"
+              >
+                (415) 917-2994
+              </a>
+              <a
+                href="mailto:support@1031exchangesanfrancisco.com"
+                className="block text-sm text-[#6E6E6E] hover:text-[#5A2828]"
+              >
+                support@1031exchangesanfrancisco.com
+              </a>
+            </div>
+          </nav>
         </div>
       )}
     </header>
   );
 }
-
