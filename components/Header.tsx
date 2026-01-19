@@ -82,17 +82,6 @@ export default function Header() {
 
           {/* Right side navigation */}
           <div className="flex items-center gap-4 md:gap-6">
-            {/* Search Icon */}
-            <button
-              className={`p-2 transition-colors ${isTransparent ? "text-white hover:text-white/70" : "text-[#2D2D2D] hover:text-[#5A2828]"}`}
-              aria-label="Search"
-            >
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                <circle cx="11" cy="11" r="8" />
-                <line x1="21" y1="21" x2="16.65" y2="16.65" />
-              </svg>
-            </button>
-
             {/* Contact Us Button */}
             <Link
               href="/contact"
@@ -162,7 +151,7 @@ export default function Header() {
         </div>
 
         {/* Menu Links */}
-        <nav className="px-6 lg:px-12 py-10">
+        <nav className="px-6 lg:px-12 py-10 overflow-y-auto h-full md:h-auto">
           <ul className="space-y-1">
             {[
               { href: "/", label: "Home" },
