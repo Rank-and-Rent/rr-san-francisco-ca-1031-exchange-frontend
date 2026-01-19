@@ -147,118 +147,134 @@ export default async function PropertyTypePage({
   const imageSrc = `${imagePath}${imageExt}`;
 
   return (
-    <div className="mx-auto max-w-6xl px-6 py-20 md:px-10 md:py-28">
-      <Breadcrumbs
-        items={[
-          { label: "Home", href: "/" },
-          { label: "Property Types", href: "/property-types" },
-          { label: propertyType.title, href: `/property-types/${propertyType.slug}` },
-        ]}
-      />
-
-      <div className="mb-12">
-        <div className="relative mb-8 h-64 w-full overflow-hidden rounded-3xl md:h-96">
-          <Image
-            src={imageSrc}
-            alt={propertyType.title}
-            fill
-            className="object-cover"
-            priority
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 90vw, 1200px"
-          />
+    <div className="bg-[#F7F5F2]">
+      {/* Hero Section */}
+      <section className="relative h-[50vh] min-h-[350px]">
+        <Image
+          src={imageSrc}
+          alt={propertyType.title}
+          fill
+          className="object-cover"
+          priority
+          sizes="100vw"
+        />
+        <div className="absolute inset-0 bg-black/50" />
+        <div className="relative z-10 flex h-full flex-col items-center justify-center text-center px-6">
+          <h1 className="font-[family-name:var(--font-playfair)] text-[28px] md:text-[38px] lg:text-[48px] font-normal tracking-[0.1em] uppercase text-white">
+            {propertyType.title}
+          </h1>
+          <p className="mt-4 max-w-2xl text-[14px] md:text-[16px] text-white/80">
+            1031 Exchange Properties in {PRIMARY_CITY}, {PRIMARY_STATE_ABBR}
+          </p>
         </div>
-        <h1 className="mb-4 font-bold text-4xl leading-[1.1] tracking-tight text-[#0C1E2E] md:text-5xl">
-          {propertyType.title}
-        </h1>
-        <div
-          className="text-lg leading-relaxed text-[#1E1E1E]/80"
-          dangerouslySetInnerHTML={{
-            __html: propertyType.longDescription,
-          }}
+      </section>
+
+      {/* Breadcrumbs */}
+      <div className="max-w-6xl mx-auto px-6 lg:px-8 py-4">
+        <Breadcrumbs
+          items={[
+            { label: "Home", href: "/" },
+            { label: "Property Types", href: "/property-types" },
+            { label: propertyType.title, href: `/property-types/${propertyType.slug}` },
+          ]}
         />
       </div>
 
-      {propertyType.benefits && propertyType.benefits.length > 0 && (
-        <div className="mb-12 rounded-3xl border border-[#E5E7EB] bg-white p-8">
-          <h2 className="mb-4 font-semibold text-2xl text-[#0C1E2E]">
-            Key Benefits
+      {/* Main Content */}
+      <div className="max-w-5xl mx-auto px-6 lg:px-8 py-8">
+        <div className="mb-12">
+          <div
+            className="text-[15px] leading-relaxed text-[#555]"
+            dangerouslySetInnerHTML={{
+              __html: propertyType.longDescription,
+            }}
+          />
+        </div>
+
+        {propertyType.benefits && propertyType.benefits.length > 0 && (
+          <div className="bg-white border border-[#E5E0D8] p-8 mb-12">
+            <h2 className="font-[family-name:var(--font-playfair)] text-[24px] md:text-[28px] font-normal text-[#5A2828] mb-6">
+              Key Benefits
+            </h2>
+            <ul className="grid gap-3 md:grid-cols-2">
+              {propertyType.benefits.map((benefit, index) => (
+                <li key={index} className="flex items-start gap-2">
+                  <span className="mt-1 text-[#5A2828]">•</span>
+                  <span className="text-[14px] leading-relaxed text-[#555]">
+                    {benefit}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+
+        <div className="bg-white border border-[#E5E0D8] p-8 mb-12">
+          <h2 className="font-[family-name:var(--font-playfair)] text-[24px] md:text-[28px] font-normal text-[#5A2828] mb-6">
+            Frequently Asked Questions
           </h2>
-          <ul className="grid gap-3 md:grid-cols-2">
-            {propertyType.benefits.map((benefit, index) => (
-              <li key={index} className="flex items-start gap-2">
-                <span className="mt-1 text-[#F5B32F]">•</span>
-                <span className="text-sm leading-relaxed text-[#1E1E1E]/80">
-                  {benefit}
-                </span>
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
-
-      <div className="mb-12 rounded-3xl border border-[#E5E7EB] bg-[#FAFAFA] p-8">
-        <h2 className="mb-4 font-semibold text-2xl text-[#0C1E2E]">
-          Frequently Asked Questions
-        </h2>
-        <div className="space-y-6">
-          <div>
-            <h3 className="mb-2 font-semibold text-lg text-[#0C1E2E]">
-              What types of {propertyType.title.toLowerCase()} qualify for 1031 exchange treatment in {PRIMARY_CITY}, {PRIMARY_STATE_ABBR}?
-            </h3>
-            <p className="text-sm leading-relaxed text-[#1E1E1E]/80">
-              {propertyType.title} that are held for investment or business use qualify for like-kind treatment in 1031 exchanges. Properties in {PRIMARY_CITY}, {PRIMARY_STATE_ABBR} must meet IRS requirements for similar use and hold the same or greater depreciation potential as your relinquished property.
-            </p>
-          </div>
-          <div>
-            <h3 className="mb-2 font-semibold text-lg text-[#0C1E2E]">
-              How do I identify {propertyType.title.toLowerCase()} replacement properties within 45 days?
-            </h3>
-            <p className="text-sm leading-relaxed text-[#1E1E1E]/80">
-              We help investors in {PRIMARY_CITY}, {PRIMARY_STATE_ABBR} identify {propertyType.title.toLowerCase()} replacement properties during the 45 day identification period. Our team evaluates properties for investment suitability, location quality, and timeline compatibility with your exchange deadlines.
-            </p>
-          </div>
-          <div>
-            <h3 className="mb-2 font-semibold text-lg text-[#0C1E2E]">
-              Can I identify {propertyType.title.toLowerCase()} properties outside {PRIMARY_CITY}, {PRIMARY_STATE_ABBR}?
-            </h3>
-            <p className="text-sm leading-relaxed text-[#1E1E1E]/80">
-              Yes, you can identify {propertyType.title.toLowerCase()} replacement properties anywhere in the United States for your 1031 exchange from {PRIMARY_CITY}, {PRIMARY_STATE_ABBR}. Like-kind property can be located in any state as long as it meets IRS qualification requirements.
-            </p>
-          </div>
-          <div>
-            <h3 className="mb-2 font-semibold text-lg text-[#0C1E2E]">
-              How do I coordinate with qualified intermediaries for {propertyType.title.toLowerCase()} exchanges?
-            </h3>
-            <p className="text-sm leading-relaxed text-[#1E1E1E]/80">
-              We coordinate with qualified intermediaries throughout {PRIMARY_CITY}, {PRIMARY_STATE_ABBR} to ensure escrow, legal, and lending workstreams stay synchronized for {propertyType.title.toLowerCase()} exchanges. While we are not a Qualified Intermediary ourselves, we work closely with QIs to facilitate compliant exchanges.
-            </p>
+          <div className="space-y-6">
+            <div>
+              <h3 className="font-[family-name:var(--font-playfair)] text-[18px] md:text-[20px] font-normal text-[#2D2D2D] mb-2">
+                What types of {propertyType.title.toLowerCase()} qualify for 1031 exchange treatment in {PRIMARY_CITY}, {PRIMARY_STATE_ABBR}?
+              </h3>
+              <p className="text-[14px] leading-relaxed text-[#555]">
+                {propertyType.title} that are held for investment or business use qualify for like-kind treatment in 1031 exchanges. Properties in {PRIMARY_CITY}, {PRIMARY_STATE_ABBR} must meet IRS requirements for similar use and hold the same or greater depreciation potential as your relinquished property.
+              </p>
+            </div>
+            <div>
+              <h3 className="font-[family-name:var(--font-playfair)] text-[18px] md:text-[20px] font-normal text-[#2D2D2D] mb-2">
+                How do I identify {propertyType.title.toLowerCase()} replacement properties within 45 days?
+              </h3>
+              <p className="text-[14px] leading-relaxed text-[#555]">
+                We help investors in {PRIMARY_CITY}, {PRIMARY_STATE_ABBR} identify {propertyType.title.toLowerCase()} replacement properties during the 45 day identification period. Our team evaluates properties for investment suitability, location quality, and timeline compatibility with your exchange deadlines.
+              </p>
+            </div>
+            <div>
+              <h3 className="font-[family-name:var(--font-playfair)] text-[18px] md:text-[20px] font-normal text-[#2D2D2D] mb-2">
+                Can I identify {propertyType.title.toLowerCase()} properties outside {PRIMARY_CITY}, {PRIMARY_STATE_ABBR}?
+              </h3>
+              <p className="text-[14px] leading-relaxed text-[#555]">
+                Yes, you can identify {propertyType.title.toLowerCase()} replacement properties anywhere in the United States for your 1031 exchange from {PRIMARY_CITY}, {PRIMARY_STATE_ABBR}. Like-kind property can be located in any state as long as it meets IRS qualification requirements.
+              </p>
+            </div>
+            <div>
+              <h3 className="font-[family-name:var(--font-playfair)] text-[18px] md:text-[20px] font-normal text-[#2D2D2D] mb-2">
+                How do I coordinate with qualified intermediaries for {propertyType.title.toLowerCase()} exchanges?
+              </h3>
+              <p className="text-[14px] leading-relaxed text-[#555]">
+                We coordinate with qualified intermediaries throughout {PRIMARY_CITY}, {PRIMARY_STATE_ABBR} to ensure escrow, legal, and lending workstreams stay synchronized for {propertyType.title.toLowerCase()} exchanges. While we are not a Qualified Intermediary ourselves, we work closely with QIs to facilitate compliant exchanges.
+              </p>
+            </div>
           </div>
         </div>
       </div>
 
-      <div className="mb-12 rounded-3xl border border-[#E5E7EB] bg-[#F5B32F]/10 p-12 text-center">
-        <h2 className="mb-4 font-semibold text-2xl text-[#0C1E2E]">
-          Ready to Find {propertyType.title} Replacement Properties?
-        </h2>
-        <p className="mb-6 text-lg text-[#1E1E1E]/80">
-          Contact us to discuss {propertyType.title.toLowerCase()} properties for your 1031 exchange in {PRIMARY_CITY}, {PRIMARY_STATE_ABBR}.
-        </p>
-        <Link
-          href={`/contact?projectType=${encodeURIComponent(propertyType.title)}`}
-          className="inline-block rounded-full bg-[#0C1E2E] px-8 py-4 text-sm font-semibold uppercase tracking-[0.3em] text-white transition hover:bg-[#12304b]"
-        >
-          Contact Us
-        </Link>
-      </div>
-
-      <div className="text-center">
-        <Link
-          href="/property-types"
-          className="inline-block rounded-full border border-[#0C1E2E] px-8 py-4 text-sm font-semibold uppercase tracking-[0.3em] text-[#0C1E2E] transition hover:bg-[#0C1E2E] hover:text-white"
-        >
-          View All Property Types
-        </Link>
-      </div>
+      {/* CTA Section */}
+      <section className="bg-[#D4C4B0] py-16 md:py-20">
+        <div className="max-w-4xl mx-auto px-6 text-center">
+          <h2 className="font-[family-name:var(--font-playfair)] text-[28px] md:text-[36px] font-normal tracking-[0.1em] uppercase text-[#5A2828] mb-6">
+            Find {propertyType.title} Replacement Properties
+          </h2>
+          <p className="text-[14px] text-[#5A2828]/80 mb-10 max-w-2xl mx-auto leading-relaxed">
+            Contact us to discuss {propertyType.title.toLowerCase()} properties for your 1031 exchange in {PRIMARY_CITY}, {PRIMARY_STATE_ABBR}.
+          </p>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <Link
+              href={`/contact?projectType=${encodeURIComponent(propertyType.title)}`}
+              className="px-10 py-3 bg-[#5A2828] text-[10px] font-medium tracking-[0.25em] uppercase text-white hover:bg-[#4A1F1F] transition-colors"
+            >
+              Contact Us
+            </Link>
+            <Link
+              href="/property-types"
+              className="px-10 py-3 border border-[#5A2828] text-[10px] font-medium tracking-[0.25em] uppercase text-[#5A2828] hover:bg-[#5A2828] hover:text-white transition-colors"
+            >
+              View All Property Types
+            </Link>
+          </div>
+        </div>
+      </section>
     </div>
   );
 }
