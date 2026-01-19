@@ -106,7 +106,7 @@ export async function generateStaticParams() {
 export async function generateMetadata({
   params,
 }: {
-  params: Promise<{ slug: string }> | { slug: string };
+  params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const resolvedParams = await params;
   const propertyType = getPropertyTypeBySlug(resolvedParams.slug);
@@ -129,7 +129,7 @@ export async function generateMetadata({
 export default async function PropertyTypePage({
   params,
 }: {
-  params: Promise<{ slug: string }> | { slug: string };
+  params: Promise<{ slug: string }>;
 }) {
   const resolvedParams = await params;
   const propertyType = getPropertyTypeBySlug(resolvedParams.slug);

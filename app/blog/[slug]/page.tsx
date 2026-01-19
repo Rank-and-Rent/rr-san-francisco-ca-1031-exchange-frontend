@@ -14,10 +14,11 @@ type BlogPost = {
 export async function generateMetadata({
   params,
 }: {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
+  const { slug } = await params;
   // TODO: Replace with actual Sanity query
-  // const post: BlogPost | null = await fetchPost(params.slug);
+  // const post: BlogPost | null = await fetchPost(slug);
   const post: BlogPost | null = null;
 
   if (post === null) {
@@ -31,7 +32,7 @@ export async function generateMetadata({
     title: `${typedPost.title} | ${SITE_NAME}`,
     description: typedPost.excerpt,
     alternates: {
-      canonical: `${SITE_URL}/blog/${params.slug}`,
+      canonical: `${SITE_URL}/blog/${slug}`,
     },
   };
 }
@@ -39,10 +40,11 @@ export async function generateMetadata({
 export default async function BlogPostPage({
   params,
 }: {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }) {
+  const { slug } = await params;
   // TODO: Replace with actual Sanity query
-  // const post: BlogPost | null = await fetchPost(params.slug);
+  // const post: BlogPost | null = await fetchPost(slug);
   const post: BlogPost | null = null;
 
   if (post === null) {
@@ -56,7 +58,7 @@ export default async function BlogPostPage({
         items={[
           { label: "Home", href: "/" },
           { label: "Blog", href: "/blog" },
-          { label: typedPost.title, href: `/blog/${params.slug}` },
+          { label: typedPost.title, href: `/blog/${slug}` },
         ]}
       />
 

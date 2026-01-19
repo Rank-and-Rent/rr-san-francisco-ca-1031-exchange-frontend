@@ -29,7 +29,7 @@ export async function generateStaticParams() {
 export async function generateMetadata({
   params,
 }: {
-  params: Promise<{ slug: string }> | { slug: string };
+  params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const resolvedParams = await params;
   const service = getServiceBySlug(resolvedParams.slug);
@@ -52,8 +52,8 @@ export default async function ServicePage({
   params,
   searchParams,
 }: {
-  params: Promise<{ slug: string }> | { slug: string };
-  searchParams: Promise<{ q?: string }> | { q?: string };
+  params: Promise<{ slug: string }>;
+  searchParams: Promise<{ q?: string }>;
 }) {
   const resolvedParams = await params;
   const resolvedSearchParams = await searchParams;
