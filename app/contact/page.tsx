@@ -2,7 +2,7 @@
 
 import { useSearchParams } from "next/navigation";
 import Image from "next/image";
-import { FormEvent, useEffect, useState, useId, Suspense, useRef } from "react";
+import { FormEvent, useEffect, useState, useId, Suspense, useRef, useMemo } from "react";
 import Script from "next/script";
 import {
   PRIMARY_CITY,
@@ -40,6 +40,17 @@ const INITIAL_FORM: ContactFormData = {
   message: "",
 };
 
+const serviceOptions = [
+  "Forward Exchange",
+  "Reverse Exchange",
+  "Qualified Intermediary Services",
+  "Property Identification",
+  "NNN Property Identification",
+  "Exchange Consultation",
+  "Form 8824 Preparation",
+  "Boot Analysis",
+];
+
 const timelineOptions = ["Immediate", "45 days", "180 days", "Planning phase"];
 
 function ContactForm() {
@@ -51,6 +62,13 @@ function ContactForm() {
   const statusRegionId = useId();
   const [turnstileToken, setTurnstileToken] = useState<string>("");
   const turnstileRef = useRef<HTMLDivElement>(null);
+
+  // Combine service options with SERVICES data
+  const allServices = useMemo(() => {
+    const serviceNames = SERVICES.map((s) => s.title);
+    const combined = new Set([...serviceOptions, ...serviceNames]);
+    return Array.from(combined).sort();
+  }, []);
 
   useEffect(() => {
     const projectType = searchParams.get("projectType");
@@ -117,10 +135,10 @@ function ContactForm() {
       const response = await fetch("/api/lead", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ 
-          ...formData, 
+        body: JSON.stringify({
+          ...formData,
           details: formData.message,
-          turnstileToken 
+          turnstileToken
         }),
       });
       if (!response.ok) throw new Error("Submission failed");
@@ -210,45 +228,45 @@ function ContactForm() {
             {/* Contact Form */}
             <div>
               <h3 className="font-[family-name:var(--font-playfair)] text-[22px] font-normal tracking-[0.08em] uppercase text-[#333] mb-6">Start Your Exchange Plan</h3>
-              
+
               <form onSubmit={handleSubmit} className="space-y-5" noValidate>
-                {/* Name */}
-                <div>
-                  <label htmlFor="contact-name" className={labelClasses}>Name *</label>
-                  <input type="text" id="contact-name" value={formData.name} 
-                    onChange={(e) => setFormData((prev) => ({ ...prev, name: e.target.value }))}
-                    placeholder="Primary investor or advisor name"
-                    className={inputClasses} aria-invalid={!!errors.name} required />
-                  {errors.name && <p className="mt-1 text-xs text-red-600">{errors.name}</p>}
+                {/* Row 1: Name + Email */}
+                <div className="grid gap-5 md:grid-cols-2">
+                  <div>
+                    <label htmlFor="contact-name" className={labelClasses}>Name *</label>
+                    <input type="text" id="contact-name" value={formData.name}
+                      onChange={(e) => setFormData((prev) => ({ ...prev, name: e.target.value }))}
+                      placeholder="Primary investor or advisor name"
+                      className={inputClasses} aria-invalid={!!errors.name} required />
+                    {errors.name && <p className="mt-1 text-xs text-red-600">{errors.name}</p>}
+                  </div>
+                  <div>
+                    <label htmlFor="contact-email" className={labelClasses}>Email *</label>
+                    <input type="email" id="contact-email" value={formData.email}
+                      onChange={(e) => setFormData((prev) => ({ ...prev, email: e.target.value }))}
+                      placeholder="We send a confirmation and checklist"
+                      className={inputClasses} aria-invalid={!!errors.email} required />
+                    {errors.email && <p className="mt-1 text-xs text-red-600">{errors.email}</p>}
+                  </div>
                 </div>
 
-                {/* Email */}
-                <div>
-                  <label htmlFor="contact-email" className={labelClasses}>Email *</label>
-                  <input type="email" id="contact-email" value={formData.email}
-                    onChange={(e) => setFormData((prev) => ({ ...prev, email: e.target.value }))}
-                    placeholder="We send a confirmation and documentation checklist"
-                    className={inputClasses} aria-invalid={!!errors.email} required />
-                  {errors.email && <p className="mt-1 text-xs text-red-600">{errors.email}</p>}
-                </div>
-
-                {/* Phone */}
-                <div>
-                  <label htmlFor="contact-phone" className={labelClasses}>Phone *</label>
-                  <input type="tel" id="contact-phone" value={formData.phone}
-                    onChange={(e) => handlePhoneChange(e.target.value)}
-                    placeholder="We confirm timelines by phone within one business day"
-                    className={inputClasses} aria-invalid={!!errors.phone} required />
-                  {errors.phone && <p className="mt-1 text-xs text-red-600">{errors.phone}</p>}
-                </div>
-
-                {/* Company */}
-                <div>
-                  <label htmlFor="contact-company" className={labelClasses}>Company</label>
-                  <input type="text" id="contact-company" value={formData.company}
-                    onChange={(e) => setFormData((prev) => ({ ...prev, company: e.target.value }))}
-                    placeholder="Company or organization name (optional)"
-                    className={inputClasses} />
+                {/* Row 2: Phone + Company */}
+                <div className="grid gap-5 md:grid-cols-2">
+                  <div>
+                    <label htmlFor="contact-phone" className={labelClasses}>Phone *</label>
+                    <input type="tel" id="contact-phone" value={formData.phone}
+                      onChange={(e) => handlePhoneChange(e.target.value)}
+                      placeholder="We confirm timelines within one business day"
+                      className={inputClasses} aria-invalid={!!errors.phone} required />
+                    {errors.phone && <p className="mt-1 text-xs text-red-600">{errors.phone}</p>}
+                  </div>
+                  <div>
+                    <label htmlFor="contact-company" className={labelClasses}>Company</label>
+                    <input type="text" id="contact-company" value={formData.company}
+                      onChange={(e) => setFormData((prev) => ({ ...prev, company: e.target.value }))}
+                      placeholder="Company or organization (optional)"
+                      className={inputClasses} />
+                  </div>
                 </div>
 
                 {/* Service */}
@@ -258,32 +276,31 @@ function ContactForm() {
                     onChange={(e) => setFormData((prev) => ({ ...prev, projectType: e.target.value }))}
                     className={`${inputClasses} bg-[#F7F5F2]`} aria-invalid={!!errors.projectType} required>
                     <option value="">Select the service you are interested in</option>
-                    {[...SERVICES].sort((a, b) => a.title.localeCompare(b.title)).map((service) => (
-                      <option key={service.slug} value={service.title}>{service.title}</option>
+                    {allServices.map((service) => (
+                      <option key={service} value={service}>{service}</option>
                     ))}
                   </select>
                   {errors.projectType && <p className="mt-1 text-xs text-red-600">{errors.projectType}</p>}
                 </div>
 
-                {/* City */}
-                <div>
-                  <label htmlFor="contact-city" className={labelClasses}>City</label>
-                  <input type="text" id="contact-city" value={formData.city}
-                    onChange={(e) => setFormData((prev) => ({ ...prev, city: e.target.value }))}
-                    placeholder="Primary metro or submarket (optional)"
-                    className={inputClasses} />
-                </div>
-
-                {/* Timeline */}
-                <div>
-                  <label htmlFor="contact-timeline" className={labelClasses}>Timeline</label>
-                  <select id="contact-timeline" value={formData.timeline}
-                    onChange={(e) => setFormData((prev) => ({ ...prev, timeline: e.target.value }))}
-                    className={`${inputClasses} bg-[#F7F5F2]`}>
-                    <option value="">Select timeline (optional)</option>
-                    {timelineOptions.map((t) => <option key={t} value={t}>{t}</option>)}
-                  </select>
-                  <p className={hintClasses}>When do you plan to start your exchange?</p>
+                {/* Row 3: City + Timeline */}
+                <div className="grid gap-5 md:grid-cols-2">
+                  <div>
+                    <label htmlFor="contact-city" className={labelClasses}>City</label>
+                    <input type="text" id="contact-city" value={formData.city}
+                      onChange={(e) => setFormData((prev) => ({ ...prev, city: e.target.value }))}
+                      placeholder="Primary metro or submarket (optional)"
+                      className={inputClasses} />
+                  </div>
+                  <div>
+                    <label htmlFor="contact-timeline" className={labelClasses}>Timeline</label>
+                    <select id="contact-timeline" value={formData.timeline}
+                      onChange={(e) => setFormData((prev) => ({ ...prev, timeline: e.target.value }))}
+                      className={`${inputClasses} bg-[#F7F5F2]`}>
+                      <option value="">Select timeline (optional)</option>
+                      {timelineOptions.map((t) => <option key={t} value={t}>{t}</option>)}
+                    </select>
+                  </div>
                 </div>
 
                 {/* Property Being Sold */}
@@ -291,7 +308,7 @@ function ContactForm() {
                   <label htmlFor="contact-property" className={labelClasses}>Property Being Sold</label>
                   <input type="text" id="contact-property" value={formData.property}
                     onChange={(e) => setFormData((prev) => ({ ...prev, property: e.target.value }))}
-                    placeholder="Include property type, location, and estimated value (optional)"
+                    placeholder="Property type, location, and estimated value (optional)"
                     className={inputClasses} />
                 </div>
 
@@ -319,7 +336,7 @@ function ContactForm() {
                 <button type="submit"
                   className="w-full px-10 py-4 bg-[#5A2828] text-[10px] font-medium tracking-[0.25em] uppercase text-white hover:bg-[#4A1F1F] transition-colors disabled:opacity-50"
                   disabled={status === "loading"}>
-                  {status === "loading" ? "Submitting..." : "Submit Request"}
+                  {status === "loading" ? "Sending..." : "Send Message"}
                 </button>
 
                 <p id={statusRegionId} role="status" aria-live="polite"
