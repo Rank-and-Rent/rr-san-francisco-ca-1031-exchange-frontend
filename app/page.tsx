@@ -1,7 +1,7 @@
 "use client";
 
 import Script from "next/script";
-import { useEffect, useState, useMemo } from "react";
+import { useMemo } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -19,7 +19,6 @@ const HERO_STATS = [
   { value: "$2.1B", label: "PROPERTIES IDENTIFIED" },
 ];
 
-// Property types that rotate like a conveyor
 const PROPERTY_TYPES = [
   "NNN",
   "RESIDENTIAL",
@@ -31,7 +30,6 @@ const PROPERTY_TYPES = [
   "RETAIL",
 ];
 
-// San Francisco areas - 6 to show in 2 rows of 3
 const SF_AREAS = [
   {
     slug: "pacific-heights-ca",
@@ -71,6 +69,29 @@ const SF_AREAS = [
   },
 ];
 
+const SERVICES = [
+  {
+    title: "Forward Exchange",
+    description: "Traditional 1031 exchange where you sell your property first, then acquire replacement property within 180 days.",
+    slug: "forward-exchange",
+  },
+  {
+    title: "Reverse Exchange",
+    description: "Acquire replacement property before selling your relinquished property when timing requires flexibility.",
+    slug: "reverse-exchange",
+  },
+  {
+    title: "Improvement Exchange",
+    description: "Use exchange funds to make improvements on replacement property before completing the exchange.",
+    slug: "improvement-exchange",
+  },
+  {
+    title: "Delaware Statutory Trust",
+    description: "Fractional ownership in institutional-grade properties for passive investors seeking diversification.",
+    slug: "dst-investments",
+  },
+];
+
 const FAQS = [
   {
     question: "What are the 45 and 180 day rules?",
@@ -83,7 +104,6 @@ const FAQS = [
 ];
 
 export default function Home() {
-
   const jsonLdGraph = useMemo(() => {
     return JSON.stringify({
       "@context": "https://schema.org",
@@ -135,45 +155,72 @@ export default function Home() {
 
         {/* Hero Content */}
         <div className="relative z-10 flex h-full flex-col items-center justify-center text-center text-white px-6">
-          <h1 className="font-[family-name:var(--font-playfair)] text-[28px] md:text-[38px] lg:text-[48px] font-light tracking-[0.2em] uppercase">
-            Access Premium 1031 Properties
-          </h1>
+          <h1 className="font-[family-name:var(--font-playfair)] text-[28px] md:text-[38px] lg:text-[48px] font-normal tracking-[0.15em] uppercase">
+            Access Our Off-Market Properties
+              </h1>
           <p className="mt-6 max-w-2xl text-[14px] md:text-[16px] font-light tracking-wide leading-relaxed">
-            Exclusive property identification. Contact SF 1031 for private access to investment-grade replacement properties.
+            Private offerings. Contact SF 1031 Exchange for private access to off-market investment properties.
           </p>
-        </div>
+              </div>
 
-        {/* Stats Bar at Bottom */}
-        <div className="absolute bottom-0 left-0 right-0 bg-white/10 backdrop-blur-md border-t border-white/20">
-          <div className="max-w-5xl mx-auto">
-            <div className="grid grid-cols-3 divide-x divide-white/20">
-              {HERO_STATS.map((stat) => (
-                <div key={stat.label} className="py-6 md:py-8 px-4 text-center text-white">
-                  <div className="font-[family-name:var(--font-playfair)] text-[24px] md:text-[32px] font-light">
-                    {stat.value}
-                  </div>
-                  <div className="mt-2 text-[9px] md:text-[10px] font-medium tracking-[0.2em] uppercase opacity-80">
-                    {stat.label}
-                  </div>
+        {/* Stats Bar at Bottom - Individual boxes, not edge-to-edge */}
+        <div className="absolute bottom-12 left-1/2 -translate-x-1/2 z-10">
+          <div className="flex gap-0">
+            {HERO_STATS.map((stat, index) => (
+              <div 
+                key={stat.label} 
+                className={`bg-[#4A5568]/60 backdrop-blur-sm px-10 md:px-16 py-6 text-center text-white ${
+                  index !== HERO_STATS.length - 1 ? "border-r border-white/20" : ""
+                }`}
+              >
+                <div className="font-[family-name:var(--font-playfair)] text-[24px] md:text-[32px] font-normal">
+                  {stat.value}
                 </div>
-              ))}
-            </div>
-          </div>
-          
-          {/* Scroll Down Arrow */}
-          <div className="flex justify-center pb-4">
-            <button
-              onClick={() => document.getElementById("property-types")?.scrollIntoView({ behavior: "smooth" })}
-              className="text-white/60 hover:text-white transition-colors"
-              aria-label="Scroll down"
-            >
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1">
-                <path d="M6 9l6 6 6-6" />
-              </svg>
-            </button>
-          </div>
+                <div className="mt-2 text-[9px] md:text-[10px] font-medium tracking-[0.2em] uppercase opacity-80">
+                  {stat.label}
+                </div>
+              </div>
+                ))}
+              </div>
         </div>
-      </section>
+        
+        {/* Scroll Down Arrow */}
+        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-10">
+          <button
+            onClick={() => document.getElementById("about")?.scrollIntoView({ behavior: "smooth" })}
+            className="text-white/60 hover:text-white transition-colors"
+            aria-label="Scroll down"
+          >
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1">
+              <path d="M6 9l6 6 6-6" />
+            </svg>
+          </button>
+              </div>
+          </section>
+
+      {/* ==================== ABOUT SECTION - Like Carolwood ==================== */}
+      <section id="about" className="relative min-h-[700px]">
+        {/* Background Image - luxury home interior */}
+                            <Image
+          src="/locations/1031-exchange-pacific-heights-ca.jpg"
+          alt="Luxury home interior"
+          fill
+          className="object-cover"
+          sizes="100vw"
+        />
+        <div className="absolute inset-0 bg-black/40" />
+        
+        <div className="relative z-10 flex min-h-[700px] items-center justify-center px-6 py-24">
+          <div className="max-w-3xl text-center text-white">
+            <h2 className="font-[family-name:var(--font-playfair)] text-[32px] md:text-[42px] lg:text-[52px] font-normal tracking-[0.08em] uppercase">
+              SF 1031 Exchange
+            </h2>
+            <p className="mt-10 text-[15px] md:text-[17px] font-light leading-[2] tracking-wide">
+              SF 1031 Exchange is a boutique property identification and exchange coordination firm based in San Francisco, founded by an organic collaboration of highly successful real estate and tax professionals. Leveraging its stellar leadership and supported by the most refined resources in the industry, SF 1031 Exchange is driven by an unrelenting focus on discretion, transactional excellence and exceeding client expectation.
+                        </p>
+                      </div>
+              </div>
+          </section>
 
       {/* ==================== PROPERTY TYPES - ROTATING CONVEYOR ==================== */}
       <section id="property-types" className="bg-[#F7F5F2] py-10 border-b border-[#E5E0D8] overflow-hidden">
@@ -182,40 +229,36 @@ export default function Home() {
             Property Types
           </span>
           
-          {/* Marquee Container */}
           <div className="flex-1 overflow-hidden">
             <div className="animate-marquee flex whitespace-nowrap">
-              {/* First set */}
               {PROPERTY_TYPES.map((type, i) => (
                 <span
                   key={`first-${i}`}
-                  className="mx-8 font-[family-name:var(--font-playfair)] text-[18px] md:text-[22px] font-light text-[#555] tracking-wide"
+                  className="mx-8 font-[family-name:var(--font-playfair)] text-[18px] md:text-[22px] font-normal text-[#555] tracking-wide"
                 >
                   {type}
                 </span>
               ))}
-              {/* Duplicate for seamless loop */}
               {PROPERTY_TYPES.map((type, i) => (
                 <span
                   key={`second-${i}`}
-                  className="mx-8 font-[family-name:var(--font-playfair)] text-[18px] md:text-[22px] font-light text-[#555] tracking-wide"
+                  className="mx-8 font-[family-name:var(--font-playfair)] text-[18px] md:text-[22px] font-normal text-[#555] tracking-wide"
                 >
                   {type}
                 </span>
               ))}
-            </div>
-          </div>
-        </div>
-      </section>
+                    </div>
+              </div>
+              </div>
+          </section>
 
       {/* ==================== SF AREAS - 2 ROWS OF 3 ==================== */}
       <section className="bg-[#F7F5F2] py-16 md:py-20">
         <div className="max-w-6xl mx-auto px-6">
-          <h2 className="text-center font-[family-name:var(--font-playfair)] text-[28px] md:text-[36px] font-light tracking-[0.12em] uppercase text-[#333] mb-10">
+          <h2 className="text-center font-[family-name:var(--font-playfair)] text-[28px] md:text-[36px] font-normal tracking-[0.1em] uppercase text-[#333] mb-10">
             San Francisco Areas
           </h2>
 
-          {/* Grid - 2 rows of 3 */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
             {SF_AREAS.map((area) => (
               <Link
@@ -224,7 +267,7 @@ export default function Home() {
                 className="group relative block"
               >
                 <div className="relative aspect-[4/3] overflow-hidden">
-                  <Image
+                          <Image
                     src={area.image}
                     alt={area.name}
                     fill
@@ -233,27 +276,26 @@ export default function Home() {
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
                   <div className="absolute bottom-0 left-0 right-0 p-5">
-                    <h3 className="font-[family-name:var(--font-playfair)] text-[18px] md:text-[20px] font-light tracking-[0.08em] text-white">
+                    <h3 className="font-[family-name:var(--font-playfair)] text-[18px] md:text-[20px] font-normal tracking-[0.08em] text-white">
                       {area.name}
                     </h3>
                     <p className="mt-1 text-[13px] text-white/80">{area.price}</p>
-                  </div>
+                        </div>
                 </div>
               </Link>
             ))}
-          </div>
+                  </div>
 
-          {/* See All Button */}
           <div className="mt-10 text-center">
             <Link
-              href="/service-areas"
+                    href="/service-areas"
               className="inline-block px-10 py-3 border border-[#5A2828] text-[10px] font-medium tracking-[0.25em] uppercase text-[#5A2828] hover:bg-[#5A2828] hover:text-white transition-colors"
-            >
+                  >
               See All
             </Link>
-          </div>
-        </div>
-      </section>
+                </div>
+              </div>
+          </section>
 
       {/* ==================== 1031 EXCHANGE SECTION ==================== */}
       <section className="relative min-h-[450px]">
@@ -264,13 +306,13 @@ export default function Home() {
           className="object-cover"
           sizes="100vw"
         />
-        <div className="absolute inset-0 bg-black/60 backdrop-blur-[2px]" />
+        <div className="absolute inset-0 bg-black/60" />
         
         <div className="relative z-10 flex min-h-[450px] items-center justify-center px-6 py-16">
           <div className="max-w-xl text-center bg-white/10 backdrop-blur-md border border-white/20 p-10 md:p-12">
-            <div className="font-[family-name:var(--font-playfair)] text-[24px] md:text-[32px] font-light text-white">
+            <div className="font-[family-name:var(--font-playfair)] text-[24px] md:text-[32px] font-normal text-white">
               IRS Section 1031
-            </div>
+              </div>
             <p className="mt-5 text-[13px] md:text-[14px] font-light leading-[1.8] text-white/90">
               Section 1031 of the Internal Revenue Code provides investors the opportunity to defer capital gains taxes when exchanging like-kind investment properties. SF 1031 Exchange is your exclusive partner in the San Francisco Bay Area.
             </p>
@@ -280,18 +322,59 @@ export default function Home() {
             >
               Learn More
             </Link>
-          </div>
+                    </div>
+              </div>
+          </section>
+
+      {/* ==================== SERVICES SECTION ==================== */}
+      <section className="bg-[#F7F5F2] py-20">
+        <div className="max-w-6xl mx-auto px-6">
+          <h2 className="text-center font-[family-name:var(--font-playfair)] text-[28px] md:text-[36px] font-normal tracking-[0.1em] uppercase text-[#333] mb-4">
+            Our Services
+          </h2>
+          <p className="text-center text-[14px] text-[#666] mb-12 max-w-2xl mx-auto">
+            Comprehensive 1031 exchange solutions tailored to your investment strategy
+          </p>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {SERVICES.map((service) => (
+              <Link
+                key={service.slug}
+                href={`/services/${service.slug}`}
+                className="group block bg-white border border-[#E5E0D8] p-8 hover:border-[#5A2828] transition-colors"
+              >
+                <h3 className="font-[family-name:var(--font-playfair)] text-[20px] md:text-[24px] font-normal text-[#333] group-hover:text-[#5A2828] transition-colors">
+                  {service.title}
+                </h3>
+                <p className="mt-4 text-[14px] text-[#666] leading-relaxed">
+                  {service.description}
+                </p>
+                <div className="mt-6 text-[10px] font-medium tracking-[0.2em] uppercase text-[#5A2828]">
+                  Learn More
+                </div>
+              </Link>
+            ))}
+                </div>
+
+          <div className="mt-12 text-center">
+            <Link
+              href="/services"
+              className="inline-block px-10 py-3 border border-[#5A2828] text-[10px] font-medium tracking-[0.25em] uppercase text-[#5A2828] hover:bg-[#5A2828] hover:text-white transition-colors"
+            >
+              View All Services
+            </Link>
+              </div>
         </div>
       </section>
 
       {/* JSON-LD */}
-      <Script
+        <Script
         id="sf-1031-jsonld"
-        type="application/ld+json"
-        strategy="afterInteractive"
-      >
-        {jsonLdGraph}
-      </Script>
+          type="application/ld+json"
+          strategy="afterInteractive"
+        >
+          {jsonLdGraph}
+        </Script>
     </div>
   );
 }

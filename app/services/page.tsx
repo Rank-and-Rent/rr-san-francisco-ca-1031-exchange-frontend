@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { servicesData } from "@/data";
 import { SITE_NAME, SITE_URL, PRIMARY_CITY, PRIMARY_STATE_ABBR } from "@/lib/config";
-import SearchInput from "@/components/SearchInput";
 
 export const metadata: Metadata = {
   title: `1031 Exchange Services in ${PRIMARY_CITY}, ${PRIMARY_STATE_ABBR}`,
@@ -12,98 +12,80 @@ export const metadata: Metadata = {
   },
 };
 
-function searchServices(query: string) {
-  const lowerQuery = query.toLowerCase().trim();
-  if (!lowerQuery) return servicesData;
-  return servicesData.filter(
-    (s) =>
-      s.name.toLowerCase().includes(lowerQuery) ||
-      s.short.toLowerCase().includes(lowerQuery)
-  );
-}
-
-export default async function ServicesPage({
-  searchParams,
-}: {
-  searchParams: Promise<{ q?: string }> | { q?: string };
-}) {
-  const resolvedSearchParams = await searchParams;
-  const query = resolvedSearchParams.q || "";
-  const filteredServices = searchServices(query);
-
+export default function ServicesPage() {
   return (
-    <div className="mx-auto max-w-6xl px-6 py-20 md:px-10 md:py-28">
-      <div className="mb-12 text-center">
-        <h1 className="mb-4 font-bold text-4xl leading-[1.1] tracking-tight text-[#0C1E2E] md:text-5xl">
-          1031 Exchange Services
-        </h1>
-        <p className="mx-auto max-w-3xl text-lg text-[#1E1E1E]/80">
-          Comprehensive property identification and exchange coordination services
-          for investors in {PRIMARY_CITY}, {PRIMARY_STATE_ABBR}.
-        </p>
-      </div>
-
-      <div className="mb-8">
-        <SearchInput
-          placeholder="Search services..."
-          defaultValue={query}
-          action="/services"
+    <div className="bg-[#F7F5F2]">
+      {/* Hero Section */}
+      <section className="relative h-[50vh] min-h-[400px]">
+        <Image
+          src="/locations/1031-exchange-financial-district-ca.jpg"
+          alt="San Francisco Financial District"
+          fill
+          className="object-cover"
+          priority
+          sizes="100vw"
         />
-      </div>
+        <div className="absolute inset-0 bg-black/50" />
+        <div className="relative z-10 flex h-full flex-col items-center justify-center text-center px-6">
+          <h1 className="font-[family-name:var(--font-playfair)] text-[32px] md:text-[42px] lg:text-[52px] font-normal tracking-[0.1em] uppercase text-white">
+            1031 Exchange Services
+          </h1>
+          <p className="mt-6 max-w-2xl text-[15px] md:text-[16px] text-white/80">
+            Comprehensive property identification and exchange coordination services for investors in {PRIMARY_CITY}, {PRIMARY_STATE_ABBR}.
+          </p>
+        </div>
+      </section>
 
-      {filteredServices.length === 0 ? (
-        <div className="rounded-3xl border border-[#E5E7EB] bg-[#FAFAFA] p-12 text-center">
-          <h2 className="mb-4 font-semibold text-2xl text-[#0C1E2E]">
-            We can help with "{query}"
+      {/* Services Grid */}
+      <section className="py-20 md:py-28">
+        <div className="max-w-6xl mx-auto px-6">
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {servicesData.map((service) => (
+              <Link
+                key={service.slug}
+                href={`/services/${service.slug}`}
+                className="group block bg-white border border-[#E5E0D8] p-8 hover:border-[#5A2828] transition-colors"
+              >
+                <h2 className="font-[family-name:var(--font-playfair)] text-[20px] md:text-[22px] font-normal text-[#333] group-hover:text-[#5A2828] transition-colors mb-4">
+                  {service.name}
+                </h2>
+                <p className="text-[14px] text-[#666] leading-relaxed mb-6">
+                  {service.short}
+                </p>
+                <span className="text-[10px] font-medium tracking-[0.2em] uppercase text-[#5A2828]">
+                  Learn More
+                </span>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="relative py-20">
+        <Image
+          src="/locations/1031-exchange-palo-alto-ca.jpg"
+          alt="Bay Area property"
+          fill
+          className="object-cover"
+          sizes="100vw"
+        />
+        <div className="absolute inset-0 bg-black/60" />
+        <div className="relative z-10 max-w-2xl mx-auto px-6 text-center">
+          <h2 className="font-[family-name:var(--font-playfair)] text-[28px] md:text-[36px] font-normal tracking-[0.08em] uppercase text-white mb-6">
+            Ready to Get Started?
           </h2>
-          <p className="mb-6 text-[#1E1E1E]/80">
-            Our team specializes in 1031 exchange property identification and
-            coordination. Contact us to discuss your specific needs.
+          <p className="text-[15px] text-white/80 mb-8">
+            Contact us to discuss your 1031 exchange needs in {PRIMARY_CITY}, {PRIMARY_STATE_ABBR}.
           </p>
           <Link
-            href={`/contact?projectType=${encodeURIComponent(query)}`}
-            className="inline-block rounded-full bg-[#0C1E2E] px-8 py-4 text-sm font-semibold uppercase tracking-[0.3em] text-white transition hover:bg-[#12304b]"
+            href="/contact"
+            className="inline-block px-10 py-3 bg-[#5A2828] text-[10px] font-medium tracking-[0.25em] uppercase text-white hover:bg-[#4A1F1F] transition-colors"
           >
             Contact Us
           </Link>
         </div>
-      ) : (
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {filteredServices.map((service) => (
-            <Link
-              key={service.slug}
-              href={`/services/${service.slug}`}
-              className="group flex flex-col gap-4 rounded-3xl border border-[#E5E7EB] bg-white p-6 transition hover:border-[#0C1E2E]/30 hover:shadow-lg"
-            >
-              <h2 className="font-semibold text-xl text-[#0C1E2E] group-hover:text-[#F5B32F] transition">
-                {service.name}
-              </h2>
-              <p className="flex-1 text-sm leading-relaxed text-[#1E1E1E]/80">
-                {service.short}
-              </p>
-              <span className="text-sm font-medium text-[#F5B32F]">
-                Learn more →
-              </span>
-            </Link>
-          ))}
-        </div>
-      )}
-
-      <div className="mt-16 rounded-3xl border border-[#E5E7EB] bg-[#F5B32F]/10 p-12 text-center">
-        <h2 className="mb-4 font-semibold text-2xl text-[#0C1E2E]">
-          Ready to Get Started?
-        </h2>
-        <p className="mb-6 text-lg text-[#1E1E1E]/80">
-          Contact us to discuss your 1031 exchange needs in {PRIMARY_CITY}, {PRIMARY_STATE_ABBR}.
-        </p>
-        <Link
-          href="/contact"
-          className="inline-block rounded-full bg-[#0C1E2E] px-8 py-4 text-sm font-semibold uppercase tracking-[0.3em] text-white transition hover:bg-[#12304b]"
-        >
-          Contact Us
-        </Link>
-      </div>
+      </section>
     </div>
   );
 }
-
